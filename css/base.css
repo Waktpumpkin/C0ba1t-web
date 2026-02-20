@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&family=Oswald:wght@400;700&display=swap');
+
+:root {
+    --bg-color: #08080a;
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --accent-blue: #ababab;
+    --accent-blue-dim: rgba(171, 171, 171, 0.2);
+    --accent-blue-bright: #ffffff;
+    --text-primary: #ffffff; 
+    --text-dim: #ababab;
+    --scanline-color: rgba(255, 255, 255, 0.01);
+    --font-mono: 'Cascadia Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+}
+
+@font-face {
+    font-family: 'PP Fraktion Mono';
+    src: url('../../../wodniack_dev/fonts/PPFraktionMono-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+.C0BA1T {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 基础背景：微弱的径向渐变，模拟CRT发光 */
+.layer-base {
+    background: #111;
+    z-index: 1;
+}
+
+/* 基础网格层 */
+.layer-grid {
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center 74px; 
+    z-index: 2;
+}
+
+/* 扫描线效果 */
+.layer-scanlines {
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        transparent 50%,
+        var(--scanline-color) 50%,
+        var(--scanline-color)
+    );
+    background-size: 100% 4px;
+    z-index: 10;
+    pointer-events: none;
+    animation: scanline-scroll 20s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes scanline-scroll {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
+
+/* 增加一些冷淡风的噪点 */
+.C0BA1T::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    z-index: 11;
+    pointer-events: none;
+}

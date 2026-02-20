@@ -1,0 +1,370 @@
+/* 顶部导航栏 */
+.main-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: 1px solid var(--grid-color);
+    background: transparent;
+    z-index: 200; 
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    backdrop-filter: blur(10px);
+}
+
+.header-logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: var(--text-primary);
+}
+
+.header-logo .logo-icon {
+    width: 65px; /* 60px + 5px */
+    height: 45px; /* 40px + 5px */
+    margin-right: 5px;
+    object-fit: contain;
+    transform: translateX(-5px); /* 向左移动 5px */
+}
+
+.header-logo .logo-text {
+    height: 30px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    display: block;
+    transform: translateX(-5px); /* 向左移动 5px */
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+.header-nav span {
+    margin-left: 30px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.3s;
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+}
+
+.header-nav span:hover {
+    color: var(--accent-blue-bright);
+}
+
+.header-nav span.active {
+    color: var(--accent-blue-bright);
+    font-weight: bold;
+}
+
+/* 装饰性UI边框 */
+.ui-frame {
+    position: absolute;
+    border: 1px solid var(--text-dim);
+    z-index: 20;
+    pointer-events: none;
+}
+
+.top-left {
+    top: 96px; /* 40px + 60px */
+    left: 40px;
+    width: 200px;
+    height: 100px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.top-left::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-blue-bright);
+    box-shadow: 0 0 10px var(--accent-blue-dim);
+}
+
+.top-left::after {
+    content: 'C0BA1T DATA STREAM';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: none;
+}
+
+.bottom-right {
+    bottom: 40px;
+    right: 40px;
+    width: 300px;
+    height: 80px;
+    border-left: none;
+    border-top: none;
+}
+
+.bottom-right::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 100px;
+    height: 4px;
+    background-color: var(--text-dim);
+}
+
+.bottom-right::before {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    width: var(--line-width, 150px);
+    height: 2px;
+    background-color: var(--accent-blue-bright);
+    transform-origin: right;
+    box-shadow: 0 0 5px var(--accent-blue-dim);
+}
+
+/* 侧边装饰条 */
+.side-bar {
+    display: none; 
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--text-dim), transparent);
+    z-index: 20;
+}
+
+.side-bar::before {
+    content: '01';
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    font-size: 10px;
+    color: var(--text-dim);
+}
+
+/* 系统状态栏 */
+.ui-status {
+    position: absolute;
+    top: 96px; 
+    right: 40px; 
+    text-align: left; 
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    z-index: 100;
+    
+    /* 添加边框 */
+    padding: 10px 15px;
+    border: 1px solid var(--text-dim);
+}
+
+.status-item {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: flex-start; /* 改为左对齐 */
+    align-items: center;
+    font-weight: bold; /* 加粗 */
+}
+
+.status-item::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--accent-blue-bright);
+    margin-right: 8px;
+}
+
+/* 绿色文本 */
+.green-text {
+    color: #0f0; /* 终端绿 */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    font-weight: bold; /* 加粗以匹配左侧终端 */
+}
+
+/* 装饰文字 */
+.decor-text {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--text-dim);
+    letter-spacing: 6px;
+    z-index: 20;
+}
+
+.bottom-left-group {
+    position: absolute;
+    bottom: 39px; /* 与右下角灰色线条底部对齐 */
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 20;
+}
+
+.warning-stripe-inline {
+    width: 100px;
+    height: 10px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--text-dim),
+        var(--text-dim) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+}
+
+/* 装饰元素 */
+.hex-dots {
+    position: absolute;
+    width: 200px;
+    height: 120px;
+    background-image: radial-gradient(var(--text-dim) 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: 0.3;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.top-right {
+    top: 40px;
+    right: 280px; /* 避开系统状态栏 */
+}
+
+.warning-stripe {
+    position: absolute;
+    width: 150px;
+    height: 10px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--text-dim),
+        var(--text-dim) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+    opacity: 0.2;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.bottom-left {
+    bottom: 42px; /* 稍微上移以与文字垂直居中 */
+    left: 280px; /* 避开左侧文字 (60px + 文字宽度约320px + 间距) */
+}
+
+/* 垂直标尺 */
+.vertical-ruler {
+    position: absolute;
+    left: 40px;
+    /* 局部居中：除去顶部菜单(75px)后的区域居中 */
+    /* top = 75px + (100% - 75px) / 2 = 75px + 50% - 37.5px = 50% + 37.5px */
+    top: calc(50% + 37.5px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 20;
+}
+
+.ruler-mark {
+    width: 4px;
+    height: 4px;
+    background-color: var(--text-dim);
+}
+
+.ruler-mark.active {
+    width: 12px;
+    background-color: var(--accent-blue-bright);
+    box-shadow: 0 0 5px var(--accent-blue-dim);
+}
+
+/* 阵营 Logo */
+.faction-logo {
+    position: absolute;
+    top: -15vh; /* 再向上移动 */
+    right: -15vh; /* 再向右移动 */
+    width: 40vh; /* 尺寸保持不变 */
+    opacity: 0.05; /* 极低透明度，作为背景水印 */
+    z-index: 2; /* 在网格之上，但在文字之下 */
+    pointer-events: none;
+    filter: grayscale(100%) contrast(1.2); /* 黑白化并增加一点对比度 */
+    mix-blend-mode: screen; /* 混合模式，使其融入深色背景 */
+}
+
+/* 故障效果 */
+.glitch-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8vw;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.05); /* 恢复到之前的透明度 */
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 1;
+    white-space: nowrap;
+    /* 移除投影闪烁和模糊 */
+}
+
+.glitch-box::before,
+.glitch-box::after {
+    content: 'C0BA1T';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.glitch-box::before {
+    left: 2px;
+    text-shadow: -2px 0 rgba(255, 255, 255, 0.1);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse; /* 恢复原来的动画速度 */
+    opacity: 1; /* 恢复不透明度 */
+}
+
+.glitch-box::after {
+    left: -2px;
+    text-shadow: -2px 0 rgba(200, 200, 200, 0.1);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse; /* 恢复原来的动画速度 */
+    opacity: 1; /* 恢复不透明度 */
+}
+
+/* 代码元素 */
+.layer-code {
+    z-index: 3;
+    padding: 100px;
+    opacity: 0.4;
+}
+
+.code-snippet {
+    position: absolute;
+    font-size: 10px;
+    color: var(--text-dim);
+    white-space: pre;
+    pointer-events: none;
+    user-select: none;
+}

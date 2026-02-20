@@ -1,0 +1,111 @@
+/* 介绍文字 */
+.intro-text {
+    position: absolute;
+    top: 152px; /* 位于 ui-status (top:100px) 下方，留出足够间距 */
+    left: 620px; /* 粒子效果约占 200-650px，留出 50px 间距 */
+    width: 860px; /* 限制宽度 */
+    font-family: var(--font-mono); /* 使用 Cascadia Mono */
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    z-index: 200;
+    pointer-events: auto; /* 允许选中文本 */
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    /* background: rgba(0, 0, 0, 0.3); */
+    padding: 20px;
+    border-left: 2px solid var(--text-dim);
+}
+
+.intro-text p {
+    margin-bottom: 0; /* 取消段落间空行 */
+    text-indent: 2em; /* 首行缩进 */
+    text-align: justify; /* 两端对齐 */
+}
+
+.intro-text h4 {
+    margin-top: 10px; /* 减小标题上方间距 */
+    margin-bottom: 0; /* 取消标题下方间距 */
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--accent-blue-bright);
+    text-indent: 0;
+}
+
+.intro-text .summary {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* 终端命令提示符 */
+.terminal-prompt {
+    position: absolute;
+    top: 120px;
+    left: 65px;
+    font-family: var(--font-mono); /* 使用 Cascadia Mono */
+    font-size: 14px;
+    z-index: 200;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+/* 移除旧的 .prompt-user 样式 */
+/*.prompt-user {
+    color: #0f0; 
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}*/
+
+.prompt-root {
+    color: #0f0; /* 绿色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 添加光晕 */
+}
+
+.prompt-at {
+    color: #FFFFFF; /* 白色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* 添加光晕 */
+}
+
+.prompt-host {
+    color: #0088ff; /* 蓝色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); /* 添加光晕 */
+}
+
+.prompt-bracket {
+    color: #0088ff; /* 蓝色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); /* 添加光晕 */
+}
+
+.prompt-path {
+    color: #ff3333; /* 与 #0088ff 视觉亮度相当的红色 */
+    font-weight: bold;
+    margin-left: 5px;
+    text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); /* 恢复光晕 */
+}
+
+.prompt-symbol {
+    color: #FFFFFF; /* #: 亮白色 */
+    margin-left: 4px;
+    margin-right: 8px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* 恢复光晕 */
+}
+
+.prompt-cmd {
+    color: var(--text-primary); /* 255,255,255 */
+}
+
+.cursor {
+    color: var(--text-primary);
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}

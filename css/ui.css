@@ -4,7 +4,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 75px; 
+    height: 74px; /* 调整为 74px，与 background-position: center 74px 对齐 */
     display: flex;
     align-items: center;
     justify-content: space-between;

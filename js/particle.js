@@ -1,12 +1,21 @@
 
 // 初始化粒子效果
-// 确保 DOM 加载完成后执行
-document.addEventListener('DOMContentLoaded', () => {
+// 导出为全局函数，供外部调用
+window.startParticleEffect = function() {
     const canvas = document.getElementById('COba1tCanvas');
     if (!canvas) {
         console.error('Canvas element #COba1tCanvas not found!');
         return;
     }
+
+    // 初始设置透明度为0，用于淡入效果
+    canvas.style.opacity = '0';
+    canvas.style.transition = 'opacity 2s ease-in-out';
+    
+    // 稍后淡入
+    setTimeout(() => {
+        canvas.style.opacity = '1';
+    }, 100);
 
     // 调整 canvas 尺寸
     canvas.width = window.innerWidth;
@@ -37,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
             invert: false
         },
         effectParticleMode: 'repulsion', // 排斥模式
-        Thickness: 50,            // 厚度/连接感
+        Thickness: 40,            // 厚度/连接感
         Drag: 0.95,
         Ease: 0.1
     });
@@ -54,4 +63,4 @@ document.addEventListener('DOMContentLoaded', () => {
             particleDemo.options.renderY = newRulerCenterY - estimatedParticleHeight / 2;
         }
     });
-});
+}; // 这里将原来的 }); 改为 }; 因为是函数结束了

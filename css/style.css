@@ -68,7 +68,7 @@ body, html {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
 }
 
 .header-logo {
@@ -82,18 +82,20 @@ body, html {
 }
 
 .header-logo .logo-icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 12px;
+    width: 60px; /* 60px + 5px */
+    height: 40px; /* 40px + 5px */
+    margin-right: 5px;
     object-fit: contain;
+    transform: translateX(-20px); /* 向左移动 5px */
 }
 
 .header-logo .logo-text {
-    height: 24px;
+    height: 30px;
     width: auto;
     object-fit: contain;
     filter: grayscale(100%);
     display: block;
+    transform: translateX(-24px); /* 向左移动 5px */
 }
 
 .header-nav {
@@ -134,21 +136,49 @@ body, html {
     align-items: center;
 }
 
-.prompt-user {
-    color: #4e9a06; /* root@C0ba1t: 终端绿 */
+/* 移除旧的 .prompt-user 样式 */
+/*.prompt-user {
+    color: #0f0; 
     font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}*/
+
+.prompt-root {
+    color: #0f0; /* 绿色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 添加光晕 */
+}
+
+.prompt-at {
+    color: #FFFFFF; /* 白色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* 添加光晕 */
+}
+
+.prompt-host {
+    color: #0088ff; /* 蓝色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); /* 添加光晕 */
+}
+
+.prompt-bracket {
+    color: #0088ff; /* 蓝色 */
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); /* 添加光晕 */
 }
 
 .prompt-path {
-    color: #3465a4; /* ~/Desktop: 终端蓝 */
+    color: #ff3333; /* 与 #0088ff 视觉亮度相当的红色 */
     font-weight: bold;
-    margin-left: 5px; /* 取消间距，因为是 [user path] 格式 */
+    margin-left: 5px;
+    text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); /* 恢复光晕 */
 }
 
 .prompt-symbol {
-    color: #d3d7cf; /* #: 终端白/灰 */
+    color: #FFFFFF; /* #: 亮白色 */
     margin-left: 4px;
     margin-right: 8px;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* 恢复光晕 */
 }
 
 .prompt-cmd {
@@ -216,7 +246,7 @@ body, html {
         linear-gradient(var(--grid-color) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size: 40px 40px;
-    background-position: center 74px; /* 垂直对齐到菜单底边框 */
+    background-position: center 74px; 
     z-index: 2;
 }
 
@@ -312,7 +342,7 @@ body, html {
 
 /* 侧边装饰条 */
 .side-bar {
-    display: none; /* 隐藏原来的侧边条，避免冲突 */
+    display: none; 
     position: absolute;
     left: 40px;
     top: 50%;
@@ -335,9 +365,9 @@ body, html {
 /* 系统状态栏 */
 .ui-status {
     position: absolute;
-    top: 96px; /* 40px + 60px */
-    right: 40px; /* 与左侧 40px 对齐 */
-    text-align: left; /* 改为左对齐 */
+    top: 96px; 
+    right: 40px; 
+    text-align: left; 
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 1px;
@@ -347,10 +377,9 @@ body, html {
     /* 添加边框 */
     padding: 10px 15px;
     border: 1px solid var(--text-dim);
-    background: rgba(8, 8, 10, 0.5); /* 半透明背景 */
 }
 
-/* 装饰性小方块 (可选，增加科技感) */
+/* 装饰性小方块  */
 /*.ui-status::before {
     content: '';
     position: absolute;
@@ -377,6 +406,7 @@ body, html {
     display: flex;
     justify-content: flex-start; /* 改为左对齐 */
     align-items: center;
+    font-weight: bold; /* 加粗 */
 }
 
 .status-item::before {
@@ -388,15 +418,14 @@ body, html {
     margin-right: 8px;
 }
 
+
+
 /* 绿色文本 */
 .green-text {
     color: #0f0; /* 终端绿 */
     text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    font-weight: bold; /* 加粗以匹配左侧终端 */
 }
-
-/*.blink {
-    animation: blink 1s step-end infinite;
-}*/
 
 /* 粒子画布 */
 #COba1tCanvas {

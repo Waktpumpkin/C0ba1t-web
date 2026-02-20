@@ -86,6 +86,59 @@ for (let i = 0; i < 5; i++) {
 setInterval(createSnippet, 3000);
 */
 
+// 打字机效果
+function typeWriter(text, elementId, speed = 100, callback) {
+    const element = document.querySelector(elementId);
+    if (!element) return;
+    
+    let i = 0;
+    element.textContent = '';
+    
+    function type() {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed + Math.random() * 50); // 增加一点随机感
+        } else {
+            if (callback) callback();
+        }
+    }
+    
+    type();
+}
+
+    // 页面加载完成后开始动画
+document.addEventListener('DOMContentLoaded', () => {
+    // 延迟一点时间开始，给用户一点准备
+    setTimeout(() => {
+        // 开始打字
+        typeWriter('cat Introduction', '.prompt-cmd', 100, () => {
+            // 打字完成后
+            
+            // 1. 移除闪烁光标
+            const cursor = document.querySelector('.cursor');
+            if (cursor) {
+                cursor.style.display = 'none';
+            }
+            
+            // 2. 模拟回车后的延迟
+            setTimeout(() => {
+                // 3. 加载粒子特效
+                if (window.startParticleEffect) {
+                    window.startParticleEffect();
+                }
+                
+                // 4. 淡入介绍文字
+                const introText = document.querySelector('.intro-text');
+                if (introText) {
+                    introText.style.opacity = '1';
+                }
+                
+            }, 500); // 500ms 延迟
+        });
+    }, 1000); // 1秒后开始打字
+});
+
 // 更新时间
 function updateTime() {
     const now = new Date();

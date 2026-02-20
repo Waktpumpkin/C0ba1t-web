@@ -24,14 +24,14 @@
 
         <!-- 终端命令提示符 -->
         <div class="terminal-prompt">
-            <span class="prompt-user">[root@C0ba1t</span>
-            <span class="prompt-path">~/Desktop]</span>
+            <span class="prompt-bracket">[</span><span class="prompt-root">root</span><span class="prompt-at">@</span><span class="prompt-host">C0ba1t</span>
+            <span class="prompt-path">~/Desktop</span><span class="prompt-bracket">]</span>
             <span class="prompt-symbol">#</span>
-            <span class="prompt-cmd">cat Introduction</span>
+            <span class="prompt-cmd"></span><span class="cursor">_</span>
         </div>
 
         <!-- 介绍文字 -->
-        <div class="intro-text">
+        <div class="intro-text" style="opacity: 0; transition: opacity 1s ease-in-out;">
             <p>C0BA1T战队成立于2021年，是重庆工商大学专注于网络安全竞赛与人才培养的专业战队。战队由CO科创团队CTF方向核心成员组成，在信息技术中心的专业指导以及人工智能学院、CO科创团队的大力支持下，已发展成为校内网络安全领域的中坚力量，形成了独具特色的"2234"发展模式。</p>
             
             <h4>"2"——两大平台依托</h4>
@@ -56,18 +56,17 @@
         <div class="layer layer-grid"></div>
         
         <!-- 扫描线效果 -->
-        <div class="layer layer-scanlines"></div>
+        <!-- <div class="layer layer-scanlines"></div> -->
         
         <!-- UI框架层 -->
     <div class="layer layer-ui">
         <div class="ui-frame top-left"></div>
         <!-- <div class="hex-dots top-right"></div> -->
         
-        <!-- 垂直标尺 (参考干员档案左侧) -->
+        <!-- 垂直标尺  -->
         <div class="vertical-ruler">
             <div class="ruler-mark"></div>
             <div class="ruler-mark active"></div>
-            <div class="ruler-mark"></div>
             <div class="ruler-mark"></div>
             <div class="ruler-mark"></div>
         </div>
@@ -88,11 +87,11 @@
         <canvas id="COba1tCanvas"></canvas>
 
         <!-- 装饰文字 -->
-        <div class="bottom-left-group">
+        <!-- <div class="bottom-left-group">
             <div class="warning-stripe-inline"></div>
             <div class="decor-text">C0BA1T</div>
             <div class="warning-stripe-inline"></div>
-        </div>
+        </div> -->
     </div>
 
     <script src="js/lodash/lodash.js"></script>

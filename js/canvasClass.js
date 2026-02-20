@@ -42,7 +42,8 @@ class Point {
     // 鼠标相对点原始位置的距离比例, 小于 1 为在边界外, 等于 1 为刚好在边界上, 大于 1 为在边界内
     let f = Thickness / d1;
 
-    f = f < 0.1 ? 0.1 : f;
+    // f = f < 0.1 ? 0.1 : f; // 移除最小力限制，避免远处鼠标造成的微小抖动
+    if (f < 0.1) f = 0; // 如果力太小，直接归零
 
     let finalT = 0;
 
@@ -211,13 +212,14 @@ class DameDaneParticle {
       callback && callback();
     }
 
-    /** 鼠标移动监听函数 */
+    // 鼠标移动监听函数
     this.$changeMxMy = _.throttle((e) => {
       const cRect = canvas.getBoundingClientRect();
       this.mx = e.clientX - cRect.left + 3;
       this.my = e.clientY - cRect.top + 3;
     }, 20)
     canvas.addEventListener("mousemove", this.$changeMxMy);
+    // 移除鼠标监听以消除鼠标移动对粒子亮度的影响
 
     /** 自适应函数 */
     this.$fit = _.throttle(() => {

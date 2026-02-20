@@ -2,9 +2,9 @@
 // 初始化粒子效果
 // 确保 DOM 加载完成后执行
 document.addEventListener('DOMContentLoaded', () => {
-    const canvas = document.getElementById('akCanvas');
+    const canvas = document.getElementById('COba1tCanvas');
     if (!canvas) {
-        console.error('Canvas element #akCanvas not found!');
+        console.error('Canvas element #COba1tCanvas not found!');
         return;
     }
 

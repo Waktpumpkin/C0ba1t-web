@@ -1,0 +1,605 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&family=Oswald:wght@400;700&display=swap');
+
+:root {
+    --bg-color: #08080a;
+    --grid-color: rgba(255, 255, 255, 0.03);
+    --accent-blue: #ababab;
+    --accent-blue-dim: rgba(171, 171, 171, 0.2);
+    --accent-blue-bright: #ffffff;
+    --text-primary: #ffffff; 
+    --text-dim: #ababab;
+    --scanline-color: rgba(255, 255, 255, 0.01);
+    --font-mono: 'Cascadia Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+}
+
+@font-face {
+    font-family: 'PP Fraktion Mono';
+    src: url('../../../wodniack_dev/fonts/PPFraktionMono-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-color);
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+}
+
+.ark-bg {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 顶部导航栏 */
+.main-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    border-bottom: 1px solid var(--grid-color);
+    background: transparent;
+    z-index: 200; 
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    backdrop-filter: blur(5px);
+}
+
+.header-logo {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    color: var(--text-primary);
+}
+
+.header-logo .logo-icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    object-fit: contain;
+}
+
+.header-logo .logo-text {
+    height: 24px;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    display: block;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+}
+
+.header-nav span {
+    margin-left: 30px;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 0.3s;
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+}
+
+.header-nav span:hover {
+    color: var(--accent-blue-bright);
+}
+
+.header-nav span.active {
+    color: var(--accent-blue-bright);
+    font-weight: bold;
+}
+
+/* 终端命令提示符 */
+.terminal-prompt {
+    position: absolute;
+    top: 120px;
+    left: 65px;
+    font-family: var(--font-mono); /* 使用 Cascadia Mono */
+    font-size: 14px;
+    z-index: 200;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+}
+
+.prompt-user {
+    color: #4e9a06; /* root@C0ba1t: 终端绿 */
+    font-weight: bold;
+}
+
+.prompt-path {
+    color: #3465a4; /* ~/Desktop: 终端蓝 */
+    font-weight: bold;
+    margin-left: 5px; /* 取消间距，因为是 [user path] 格式 */
+}
+
+.prompt-symbol {
+    color: #d3d7cf; /* #: 终端白/灰 */
+    margin-left: 4px;
+    margin-right: 8px;
+}
+
+.prompt-cmd {
+    color: var(--text-primary); /* 255,255,255 */
+}
+
+.cursor {
+    color: var(--text-primary);
+    animation: blink 1s step-end infinite;
+    margin-left: 2px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* 介绍文字 */
+.intro-text {
+    position: absolute;
+    top: 152px; /* 位于 ui-status (top:100px) 下方，留出足够间距 */
+    left: 620px; /* 粒子效果约占 200-650px，留出 50px 间距 */
+    width: 860px; /* 限制宽度 */
+    font-family: var(--font-mono); /* 使用 Cascadia Mono */
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-primary);
+    z-index: 200;
+    pointer-events: auto; /* 允许选中文本 */
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    /* background: rgba(0, 0, 0, 0.3); */
+    padding: 20px;
+    border-left: 2px solid var(--text-dim);
+}
+
+.intro-text p {
+    margin-bottom: 0; /* 取消段落间空行 */
+    text-indent: 2em; /* 首行缩进 */
+    text-align: justify; /* 两端对齐 */
+}
+
+.intro-text h4 {
+    margin-top: 10px; /* 减小标题上方间距 */
+    margin-bottom: 0; /* 取消标题下方间距 */
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--accent-blue-bright);
+    text-indent: 0;
+}
+
+.intro-text .summary {
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* 基础背景：微弱的径向渐变，模拟CRT发光 */
+.layer-base {
+    background: #111;
+    z-index: 1;
+}
+
+/* 基础网格层 */
+.layer-grid {
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center 74px; /* 垂直对齐到菜单底边框 */
+    z-index: 2;
+}
+
+/* 扫描线效果 */
+.layer-scanlines {
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        transparent 50%,
+        var(--scanline-color) 50%,
+        var(--scanline-color)
+    );
+    background-size: 100% 4px;
+    z-index: 10;
+    pointer-events: none;
+    animation: scanline-scroll 20s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes scanline-scroll {
+    from { background-position: 0 0; }
+    to { background-position: 0 100%; }
+}
+
+/* 装饰性UI边框 */
+.ui-frame {
+    position: absolute;
+    border: 1px solid var(--text-dim);
+    z-index: 20;
+    pointer-events: none;
+}
+
+.top-left {
+    top: 96px; /* 40px + 60px */
+    left: 40px;
+    width: 200px;
+    height: 100px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.top-left::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-blue-bright);
+    box-shadow: 0 0 10px var(--accent-blue-dim);
+}
+
+.top-left::after {
+    content: 'C0BA1T DATA STREAM';
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 10px;
+    color: var(--text-dim);
+    display: none;
+}
+
+.bottom-right {
+    bottom: 40px;
+    right: 40px;
+    width: 300px;
+    height: 80px;
+    border-left: none;
+    border-top: none;
+}
+
+.bottom-right::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 100px;
+    height: 4px;
+    background-color: var(--text-dim);
+}
+
+.bottom-right::before {
+    content: '';
+    position: absolute;
+    bottom: 10px;
+    right: 0;
+    width: var(--line-width, 150px);
+    height: 2px;
+    background-color: var(--accent-blue-bright);
+    transform-origin: right;
+    box-shadow: 0 0 5px var(--accent-blue-dim);
+}
+
+/* 侧边装饰条 */
+.side-bar {
+    display: none; /* 隐藏原来的侧边条，避免冲突 */
+    position: absolute;
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--text-dim), transparent);
+    z-index: 20;
+}
+
+.side-bar::before {
+    content: '01';
+    position: absolute;
+    top: -20px;
+    left: -10px;
+    font-size: 10px;
+    color: var(--text-dim);
+}
+
+/* 系统状态栏 */
+.ui-status {
+    position: absolute;
+    top: 96px; /* 40px + 60px */
+    right: 40px; /* 与左侧 40px 对齐 */
+    text-align: left; /* 改为左对齐 */
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    z-index: 100;
+    
+    /* 添加边框 */
+    padding: 10px 15px;
+    border: 1px solid var(--text-dim);
+    background: rgba(8, 8, 10, 0.5); /* 半透明背景 */
+}
+
+/* 装饰性小方块 (可选，增加科技感) */
+/*.ui-status::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-blue-bright);
+    box-shadow: 0 0 5px var(--accent-blue-dim);
+}
+
+.ui-status::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-dim);
+}*/
+
+.status-item {
+    margin-bottom: 6px;
+    display: flex;
+    justify-content: flex-start; /* 改为左对齐 */
+    align-items: center;
+}
+
+.status-item::before {
+    content: '';
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    background-color: var(--accent-blue-bright);
+    margin-right: 8px;
+}
+
+/* 绿色文本 */
+.green-text {
+    color: #0f0; /* 终端绿 */
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+}
+
+/*.blink {
+    animation: blink 1s step-end infinite;
+}*/
+
+/* 粒子画布 */
+#akCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15; /* 位于代码层之上，UI层之下 */
+    pointer-events: auto; /* 允许交互 */
+}
+/* 装饰文字 */
+.decor-text {
+    font-size: 12px;
+    font-weight: normal;
+    color: var(--text-dim);
+    letter-spacing: 6px;
+    z-index: 20;
+}
+
+.bottom-left-group {
+    position: absolute;
+    bottom: 39px; /* 与右下角灰色线条底部对齐 */
+    left: 40px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    z-index: 20;
+}
+
+.warning-stripe-inline {
+    width: 100px;
+    height: 10px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--text-dim),
+        var(--text-dim) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+}
+
+/* 装饰元素 */
+.hex-dots {
+    position: absolute;
+    width: 200px;
+    height: 120px;
+    background-image: radial-gradient(var(--text-dim) 1px, transparent 1px);
+    background-size: 8px 8px;
+    opacity: 0.3;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.top-right {
+    top: 40px;
+    right: 280px; /* 避开系统状态栏 */
+}
+
+.warning-stripe {
+    position: absolute;
+    width: 150px;
+    height: 10px;
+    background: repeating-linear-gradient(
+        45deg,
+        var(--text-dim),
+        var(--text-dim) 2px,
+        transparent 2px,
+        transparent 6px
+    );
+    opacity: 0.2;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.bottom-left {
+    bottom: 42px; /* 稍微上移以与文字垂直居中 */
+    left: 280px; /* 避开左侧文字 (60px + 文字宽度约320px + 间距) */
+}
+
+/* 垂直标尺 */
+.vertical-ruler {
+    position: absolute;
+    left: 40px;
+    /* 局部居中：除去顶部菜单(75px)后的区域居中 */
+    /* top = 75px + (100% - 75px) / 2 = 75px + 50% - 37.5px = 50% + 37.5px */
+    top: calc(50% + 37.5px);
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 20;
+}
+
+.ruler-mark {
+    width: 4px;
+    height: 4px;
+    background-color: var(--text-dim);
+}
+
+.ruler-mark.active {
+    width: 12px;
+    background-color: var(--accent-blue-bright);
+    box-shadow: 0 0 5px var(--accent-blue-dim);
+}
+
+/* 阵营 Logo */
+.faction-logo {
+    position: absolute;
+    top: -15vh; /* 再向上移动 */
+    right: -15vh; /* 再向右移动 */
+    width: 40vh; /* 尺寸保持不变 */
+    opacity: 0.05; /* 极低透明度，作为背景水印 */
+    z-index: 2; /* 在网格之上，但在文字之下 */
+    pointer-events: none;
+    filter: grayscale(100%) contrast(1.2); /* 黑白化并增加一点对比度 */
+    mix-blend-mode: screen; /* 混合模式，使其融入深色背景 */
+}
+
+/* 故障效果 */
+.glitch-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8vw;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.05); /* 恢复到之前的透明度 */
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 1;
+    white-space: nowrap;
+    /* 移除投影闪烁和模糊 */
+}
+
+/* 移除 hologram-flicker 动画 */
+
+.glitch-box::before,
+.glitch-box::after {
+    content: 'C0BA1T';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+}
+
+.glitch-box::before {
+    left: 2px;
+    text-shadow: -2px 0 rgba(255, 255, 255, 0.1);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse; /* 恢复原来的动画速度 */
+    opacity: 1; /* 恢复不透明度 */
+}
+
+.glitch-box::after {
+    left: -2px;
+    text-shadow: -2px 0 rgba(200, 200, 200, 0.1);
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse; /* 恢复原来的动画速度 */
+    opacity: 1; /* 恢复不透明度 */
+}
+
+/*@keyframes glitch-anim {
+    0% { clip: rect(31px, 9999px, 94px, 0); }
+    10% { clip: rect(42px, 9999px, 83px, 0); }
+    40% { clip: rect(55px, 9999px, 69px, 0); }
+    100% { clip: rect(67px, 9999px, 62px, 0); }
+}
+
+@keyframes glitch-anim2 {
+    0% { clip: rect(65px, 9999px, 100px, 0); }
+    50% { clip: rect(40px, 9999px, 65px, 0); }
+    100% { clip: rect(25px, 9999px, 25px, 0); }
+}*/
+
+/* 代码元素 */
+.layer-code {
+    z-index: 3;
+    padding: 100px;
+    opacity: 0.4;
+}
+
+.code-snippet {
+    position: absolute;
+    font-size: 10px;
+    color: var(--text-dim);
+    white-space: pre;
+    pointer-events: none;
+    user-select: none;
+}
+
+/* 增加一些冷淡风的噪点 */
+.ark-bg::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Ffilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    z-index: 11;
+    pointer-events: none;
+}

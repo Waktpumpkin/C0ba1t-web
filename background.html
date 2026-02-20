@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Background Layer</title>
+    <style>
+        /* --- 字体与基础变量 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@900&display=swap');
+
+        :root {
+            --bg-color: #0c0c0c;
+            --grid-color: rgba(255, 255, 255, 0.03);
+            /* 修正水印颜色为 0.08 以匹配原版 */
+            --watermark-color: rgba(255, 255, 255, 0.08);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-color);
+            display: flex;
+        }
+
+        /* --- 左侧网格纹理区域 (60%) --- */
+        .bg-left {
+            width: 60%;
+            height: 100%;
+            background: #111;
+            /* 网格背景图案 */
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            position: relative;
+        }
+
+        /* --- 右侧纯黑区域 (40%) --- */
+        .bg-right {
+            flex: 1;
+            height: 100%;
+            background: #000;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
+        /* --- 巨大的 DATA 水印 --- */
+        .bg-watermark {
+            position: absolute;
+            bottom: -30px;
+            right: -20px;
+            font-family: 'Oswald', sans-serif;
+            font-size: 200px; /* 原尺寸 */
+            font-weight: 900;
+            color: var(--watermark-color);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            z-index: 0;
+            
+            /* 保持原有的倾斜设计感 */
+             transform-origin: bottom right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-left"></div>
+    <div class="bg-right">
+        <div class="bg-watermark">DATA</div>
+    </div>
+
+</body>
+</html>

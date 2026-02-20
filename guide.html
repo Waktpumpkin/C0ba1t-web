@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUIDE - C0ba1t</title>
+    <style>
+        /* --- 字体与基础变量 --- */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&family=Oswald:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #0c0c0c; /* 更深的纯黑背景 */
+            --text-main: #ffffff;
+            --text-gray: #5a5a5a;
+            --accent-blue: #23ade5; /* 官网常用的强调蓝 */
+            --border-light: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Oswald', 'Noto Sans SC', sans-serif; /* 标题字体 */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 顶部导航栏 (模拟官网顶部) --- */
+        header {
+            height: 75px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid var(--border-light);
+            background: rgba(12, 12, 12, 0.9);
+            z-index: 100;
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+
+        .header-logo {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            height: 100%; /* 让容器高度充满header */
+        }
+        
+        .header-logo .logo-icon {
+            width: 56px;
+            height: 56px;
+            margin-right: 8px; /* 减小间距 */
+            object-fit: contain;
+        }
+        
+        .header-logo .logo-text {
+            height: 32px; 
+            width: auto;
+            object-fit: contain;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-nav span {
+            margin-left: 30px;
+            font-size: 18px;
+            font-weight: 500; /* 稍微加粗一点适配更大的字号 */
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .header-nav span:hover {
+            color: rgba(35, 173, 229, 1); /* 悬停时变为强调蓝 */
+        }
+        .header-nav span.active {
+            color: var(--text-main); /* 当前激活项保持白色 */
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- ================================================================================== -->
+    <!-- [NAVBAR SECTION START] -->
+    <header>
+        <div class="header-logo">
+            <img src="logo.png" alt="Team Logo" class="logo-icon">
+            <img src="logo_txt.png" alt="C0ba1t" class="logo-text">
+        </div>
+        <nav class="header-nav">
+            <span>HOME</span>
+            <span class="active">INTRODUCTION</span> <!-- 假设 Guide 对应 Introduction -->
+            <span>MEMBERS</span>
+            <span>HONNER</span>
+        </nav>
+    </header>
+    <!-- [NAVBAR SECTION END] -->
+    <!-- ================================================================================== -->
+
+</body>
+</html>

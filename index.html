@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arknights Style Background - Cold Office</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="ark-bg">
+        <!-- 导航菜单 -->
+        <header class="main-header">
+            <div class="header-logo">
+                <img src="assets/战队LOGO图案无背景.png" alt="Team Logo" class="logo-icon">
+                <img src="assets/战队LOGO文字无背景.png" alt="C0BA1T" class="logo-text">
+            </div>
+            <nav class="header-nav">
+                <span>HOME</span>
+                <span class="active">INTRODUCTION</span>
+                <span>MEMBERS</span>
+                <span>HONNER</span>
+            </nav>
+        </header>
+
+        <!-- 终端命令提示符 -->
+        <div class="terminal-prompt">
+            <span class="prompt-user">[root@C0ba1t</span>
+            <span class="prompt-path">~/Desktop]</span>
+            <span class="prompt-symbol">#</span>
+            <span class="prompt-cmd">cat Introduction</span>
+        </div>
+
+        <!-- 介绍文字 -->
+        <div class="intro-text">
+            <p>C0BA1T战队成立于2021年，是重庆工商大学专注于网络安全竞赛与人才培养的专业战队。战队由CO科创团队CTF方向核心成员组成，在信息技术中心的专业指导以及人工智能学院、CO科创团队的大力支持下，已发展成为校内网络安全领域的中坚力量，形成了独具特色的"2234"发展模式。</p>
+            
+            <h4>"2"——两大平台依托</h4>
+            <p>战队的发展离不开坚实的平台支撑。信息技术中心（林丹、梁力源、田昌鹏等老师）为战队提供优质实验平台、技术资源与全方位支持；人工智能学院提供专业的学科建设支持与人才培养环境。依托这两大平台，战队在短时间内实现跨越式发展。</p>
+            
+            <h4>"2"——两项常态赛事</h4>
+            <p>战队建立了制度化、常态化的人才选拔与培养机制。每年9月的新生选拔赛为战队注入新鲜血液，每年5月的全校CTF比赛则成为校内网络安全爱好者展示实力、交流技术的重要舞台。这两项赛事已逐渐成为学校网络安全人才培养的标志性活动。</p>
+            
+            <h4>"3"——三类赛事布局</h4>
+            <p>战队形成了层次分明、梯度递进的参赛体系。在市级赛事层面，以"山城杯"、"巴渝杯"、重庆市大学生信息安全竞赛等为根基，巩固区域优势；在国家级赛事层面，积极征战全国大学生信息安全竞赛、"长城杯"铁人三项、全国大学生软件创新大赛、数字中国数据安全赛、大学生信息安全对抗竞赛等高水平赛事；在国际级赛事层面，部分优秀成员加入N0wayBack、r3kapig等国内外高校联队，参与更高层次的国际竞技。</p>
+            
+            <h4>"4"——四个显著成果</h4>
+            <p>经过持续发展，战队取得了显著成果。在市级赛事层面，长期保持重庆市网络安全赛事领先地位，打破本地传统强校垄断，成为市内领军队伍之一；在国家级赛事层面，实现学校在网络安全国家级竞赛中从无到有的历史性跨越，并持续保持优秀成绩；在校企合作层面，与中国移动、启明星辰、安可信等知名企业建立深度合作，获得赛事赞助与技术支持；在就业升学层面，人才培养成果显著，队员进入腾讯玄武实验室、绿盟科技、奇安信等知名企业实习或就业。</p>
+            
+            <p class="summary">未来，C0BA1T战队将继续秉承"以赛促学、以练促战"的理念，依托两大平台，完善赛事体系，深耕三类布局，争创更多成果。将竞赛经验转化为学校网络安全建设的实际助力，为守护国家网络空间安全、培育高素质网络安全人才贡献青春力量。</p>
+        </div>
+
+        <!-- 背景基础层 -->
+        <div class="layer layer-base"></div>
+        
+        <!-- 网格层 -->
+        <div class="layer layer-grid"></div>
+        
+        <!-- 扫描线效果 -->
+        <div class="layer layer-scanlines"></div>
+        
+        <!-- UI框架层 -->
+    <div class="layer layer-ui">
+        <div class="ui-frame top-left"></div>
+        <!-- <div class="hex-dots top-right"></div> -->
+        
+        <!-- 垂直标尺 (参考干员档案左侧) -->
+        <div class="vertical-ruler">
+            <div class="ruler-mark"></div>
+            <div class="ruler-mark active"></div>
+            <div class="ruler-mark"></div>
+            <div class="ruler-mark"></div>
+            <div class="ruler-mark"></div>
+        </div>
+
+        <div class="ui-frame bottom-right"></div>
+
+        <div class="ui-status">
+            <div class="status-item">SYSTEM STATUS: <span class="green-text">ONLINE</span></div>
+            <div class="status-item">C0BA1T: <span class="green-text">TERMINAL ACCESS</span></div>
+        </div>
+    </div>
+        </div>
+
+        <!-- 代码元素容器 -->
+        <div id="code-container" class="layer layer-code"></div>
+
+        <!-- 粒子画布 -->
+        <canvas id="akCanvas"></canvas>
+
+        <!-- 装饰文字 -->
+        <div class="bottom-left-group">
+            <div class="warning-stripe-inline"></div>
+            <div class="decor-text">C0BA1T</div>
+            <div class="warning-stripe-inline"></div>
+        </div>
+    </div>
+
+    <script src="js/lodash/lodash.js"></script>
+    <script src="js/canvasClass.js"></script>
+    <script src="js/particle.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

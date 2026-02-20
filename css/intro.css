@@ -109,3 +109,14 @@
     0%, 100% { opacity: 1; }
     50% { opacity: 0; }
 }
+
+/* 粒子画布 */
+#COba1tCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 15; /* 位于代码层之上，UI层之下 */
+    pointer-events: auto; /* 允许交互 */
+}

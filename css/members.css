@@ -1,0 +1,471 @@
+/* Members Page CSS - Consolidated from members/CSS/* */
+/* 字体由 base.css 统一引入，此处不再重复 @import */
+
+/* variables.css */
+/* Removed :root variables as they should be merged into style.css or handled globally */
+/* Using existing CSS variables where possible */
+
+/* layout.css */
+.members-container {
+    /* Restore Members Page Specific Colors */
+    --accent-blue: #23ade5;
+    --accent-blue-bright: #23ade5; /* Override global white */
+    --accent-blue-dim: rgba(35, 173, 229, 0.2);
+    --text-dim: #5a5a5a;
+    --card-bg: #141414;
+    
+    /* 修正字体：确保继承正确的字体族 */
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+    
+    flex: 1;
+    display: flex;
+    height: 100vh; /* Fill the section */
+    position: relative;
+    padding-top: 75px; /* Offset for fixed header */
+    box-sizing: border-box;
+    z-index: 10; /* Ensure it's above background layers */
+    pointer-events: auto; /* Force enable pointer events */
+    
+    /* 透明以透出全局网格，右侧由 .members-right-panel 自备背景 */
+    background-color: transparent;
+}
+
+/* SPA Integration Fix: Ensure the section sits above the particle canvas (z-index: 15) */
+#section-members.active {
+    z-index: 20;
+}
+
+.members-left-panel {
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* 透明以透出全局 .layer-grid，与 Honor 共用同一网格背景 */
+    background-color: transparent;
+}
+
+.grid-scroll-area {
+    flex: 1;
+    overflow-y: auto;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20px, black calc(100% - 20px), transparent 100%);
+    transition: all 0.5s ease;
+}
+
+.grid-scroll-area::-webkit-scrollbar { display: none; }
+
+.grid {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px auto 0 auto;
+    position: relative;
+    transition: margin-top 0.5s ease;
+}
+
+.card.card-centered-top { margin-top: 15vh !important; }
+
+/* 右侧外层透明，内层黑底遮住网格；切出时内层滑走后露出 main 的网格 */
+.members-right-panel {
+    flex: 1;
+    position: relative;
+    min-width: 0;
+    background-color: transparent;
+}
+
+/* 内层整块：背景+分割线+内容一起做切出动画 */
+.members-right-panel-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 60px;
+    padding-bottom: 116px;
+    background-color: #0c0c0c;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.right-main-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 120px;
+    font-weight: 700;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 1.0;
+    color: #fff;
+    color: var(--text-main, #fff);
+    margin-bottom: 20px;
+    letter-spacing: -2px;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
+    height: 210px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
+}
+
+.pagination-container { padding: 10px 0; display: flex; align-items: center; }
+
+._ee2cd206 { display: flex; align-items: center; gap: 15px; font-family: 'Roboto Mono', monospace; font-size: 24px; font-weight: 500; color: #5a5a5a; color: var(--text-dim, #5a5a5a); -webkit-user-select: none; -moz-user-select: none; user-select: none; }
+._1fde3ce2 { width: 36px; height: 50px; fill: #5a5a5a; fill: var(--text-dim, #5a5a5a); cursor: pointer; transition: fill 0.3s; }
+._1fde3ce2:hover { fill: #23ade5; fill: var(--accent-blue-bright, #23ade5); }
+._f64cc8ea { color: #fff; color: var(--text-main, #fff); font-weight: bold; font-size: 32px; width: 110px; text-align: center; white-space: nowrap; display: inline-block; transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease; }
+
+.grade-anim-out-left { transform: translateX(-10px); opacity: 0; }
+.grade-anim-out-right { transform: translateX(10px); opacity: 0; }
+.grade-anim-in-from-right { transform: translateX(10px); opacity: 0; }
+.grade-anim-in-from-left { transform: translateX(-10px); opacity: 0; }
+
+.bg-text { position: absolute; bottom: -20px; right: -20px; font-size: 200px; font-weight: 900; color: rgba(255,255,255,0.08); line-height: 1; pointer-events: none; overflow: hidden; z-index: 1; transition: opacity 0.4s ease, transform 0.4s ease; }
+
+/* card.css */
+.card {
+    width: calc((100% - 45px) / 4);
+    min-width: 180px;
+    display: none;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    position: relative;
+    background: #141414;
+    background: var(--card-bg, #141414);
+    max-width: 250px;
+    aspect-ratio: 10/14.5;
+    cursor: pointer;
+    overflow: hidden;
+    border: 1px solid transparent;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+    background-color: #383838 !important;
+    opacity: 1;
+    transition: opacity 0.3s, transform 0.5s;
+}
+
+.card:hover {
+    border-color: #fff;
+    border-color: var(--text-main, #fff);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.18);
+    z-index: 10;
+}
+
+.card-links-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-links-overlay { opacity: 1; pointer-events: auto; }
+
+.link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    -webkit-text-decoration: none;
+    text-decoration: none;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    transition: all 0.2s;
+    width: 140px;
+    justify-content: center;
+}
+.link-btn:hover { background: #23ade5; background: var(--accent-blue-bright, #23ade5); color: #000; border-color: #23ade5; border-color: var(--accent-blue-bright, #23ade5); transform: translateY(-2px); }
+.link-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+.card:hover .card-img { opacity: 1; }
+
+.card-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    pointer-events: none; /* Changed from none to auto to allow clicks pass through only if needed, but here overlay is visual */
+    /* pointer-events: none is correct for the visual overlay text, 
+       but the card itself needs to be clickable. 
+       The issue might be the z-index stacking. */
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    transform-origin: center top;
+    z-index: 3; /* Ensure it is above avatar but below interaction layers if any */
+}
+.card-overlay::before {
+    content: '';
+    display: block;
+    width: 100%;
+    padding-top: 100%;
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.member-leader-tag {
+    position: relative;
+    display: inline-block;
+    top: auto; left: auto;
+    background-color: #23ade5;
+    background-color: var(--accent-blue-bright, #23ade5);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1;
+    margin-bottom: 1px;
+    align-self: flex-start;
+}
+.leader-tags { display: flex; gap: 8px; align-items: center; }
+.member-name-row { margin-top: 21px; }
+.card .card-main-info .member-name-row { margin-top: 4px; }
+
+.card-bottom-info {
+    box-sizing: border-box;
+    position: relative;
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    z-index: 5;
+}
+.card-main-info { 
+    position: relative; 
+    width: 100%; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-start; 
+    font-family: 'Oswald', sans-serif; /* 明确指定卡片主信息字体 */
+}
+
+.card-role-col {
+    position: absolute;
+    right: 0px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 2px;
+    width: auto;
+    background-color: #2b2c2c;
+    border-radius: 2px;
+    padding: 2px 4px;
+    height: 20px;
+    z-index: 6;
+}
+
+.role-icon-placeholder { width: 14px; height: 14px; color: #888; opacity: 1; transition: color 0.3s, transform 0.3s; display: flex; align-items: center; justify-content: center; margin-top: 0; padding: 0; }
+.role-icon-placeholder svg { width: 12px !important; height: 12px !important; }
+
+.member-role-tag { font-family: 'Roboto Mono', monospace; font-size: 10px; font-weight: 700; opacity: 1; padding: 0 2px; background: none; color: #ffffff; text-align: right; line-height: normal; display: flex; align-items: center; white-space: nowrap; }
+.member-role-tag.misc-compact { display: inline-block; padding: 0 2px; overflow: hidden; text-overflow: ellipsis; justify-content: center; box-sizing: border-box; }
+
+.member-leader-tag.origin-gold { background-color: #D4AF37; color: #fff; border: 1.5px solid #ffe066; }
+.member-leader-tag.origin-gold.origin-adjust { border-width: 1px; padding-top: 1px; padding-bottom: 1px; box-sizing: border-box; }
+
+.member-desc { font-family: 'Oswald', sans-serif; font-size: 10px; color: #888; text-transform: none; font-style: italic; font-weight: 700; line-height: 1.1; width: 100%; margin-right: 0; margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
+
+.member-name { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 2px; line-height: 1; }
+
+.role-icon-placeholder[data-role="PWN"] { color: #e03131; }
+.role-icon-placeholder[data-role="CRYPTO"] { color: #6741d9; }
+.role-icon-placeholder[data-role="WEB"] { color: #1971c2; }
+.role-icon-placeholder[data-role="RE"] { color: #f08c00; }
+.role-icon-placeholder[data-role="MISC"] { color: #099268; }
+
+.view-now-strip { display: none !important; position: absolute; bottom: 10px; right: 0; background: #23ade5; background: var(--accent-blue-bright, #23ade5); color: #000; font-size: 10px; font-weight: 900; padding: 2px 8px; display: flex; align-items: center; gap: 5px; opacity: 0; transform: translateX(100%); transition: all 0.3s ease-out; z-index: 5; font-family: 'Roboto Mono', monospace; }
+
+.member-avatar-circle {
+    position: absolute;
+    bottom: auto;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    max-width: none;
+    border-radius: 0;
+    background-size: cover;
+    background-position: center;
+    border: none;
+    z-index: 2;
+    filter: none;
+    opacity: 1;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover .view-now-strip { opacity: 1; transform: translateX(0); }
+.card::after, .card:hover::after { display: none !important; }
+
+@media (max-width: 1200px) {
+    .card { width: calc((100% - 30px) / 3); }
+}
+@media (max-width: 1024px) {
+    .members-container {
+        flex-direction: column;
+        height: auto;
+        overflow-y: auto;
+    }
+    .members-left-panel {
+        width: 100%;
+        height: 50vh;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .members-right-panel { width: 100%; min-height: 50vh; }
+}
+@media (max-width: 768px) {
+    .card { width: calc((100% - 15px) / 2); }
+}
+
+/* ==========================================================================
+   Page Exit Animations (Added for Staggered Exit)
+   ========================================================================== */
+
+/* 1. Cards Fly Up (When scrolling down to next page) */
+@keyframes cardExitUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(0.9);
+    }
+}
+
+.card-exit-up {
+    animation: cardExitUp 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    pointer-events: none; /* Prevent clicks during exit */
+}
+
+/* 2. Cards Drop Down (When scrolling up to prev page) */
+@keyframes cardExitDown {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.9);
+    }
+}
+
+.card-exit-down {
+    animation: cardExitDown 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    pointer-events: none;
+}
+
+/* 2.5 切出时 card 统一向左位移（不随滚动方向变化） */
+@keyframes cardExitLeft {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-120px) scale(0.95);
+    }
+}
+
+.card-exit-left {
+    animation: cardExitLeft 0.5s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+    pointer-events: none;
+}
+
+/* 3. Right Panel 整块完全推出/推入：仅位移，不半途淡出；切入与切出均为 0.7s */
+@keyframes panelExitRight {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes panelExitLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.members-right-panel-inner.panel-exit-right,
+.members-right-panel-inner.panel-exit-left {
+    animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    animation-fill-mode: forwards;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.panel-exit-right {
+    animation-name: panelExitRight;
+}
+
+.panel-exit-left {
+    animation-name: panelExitLeft;
+}
+
+/* 推入：与推出对称，直接复用 panelExitRight 的 keyframes 反放 */
+.members-right-panel-inner.panel-enter-from-right {
+    animation: panelExitRight 0.7s cubic-bezier(0.55, 0.055, 0.675, 0.19) reverse forwards;
+}
+
+/* 卡片切入：从左淡入滑入，由 JS 设置 animation-delay 做错峰 */
+@keyframes cardEnterIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-24px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 与切出一致：0.6s、同一缓动；整体放慢靠 JS 错峰 0.08s */
+.card.card-enter-in {
+    animation: cardEnterIn 0.6s cubic-bezier(0.55, 0.055, 0.675, 0.19) forwards;
+}

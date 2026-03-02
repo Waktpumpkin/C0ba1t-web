@@ -1,0 +1,241 @@
+/* ==========================================================================
+   自适应布局 - 多分辨率 / 不同屏幕下正常浏览
+   断点：1440 / 1280 / 1024 / 768 / 480
+   ========================================================================== */
+
+/* --header-height 由 base.css 定义；此处仅补充响应式用变量 */
+:root {
+    --content-padding: 40px;
+    --content-padding-sm: 24px;
+    --content-padding-xs: 16px;
+}
+
+/* 默认大屏：Members/Honor 背景大字 */
+.page-title {
+    font-size: 6rem;
+    letter-spacing: 20px;
+}
+
+/* ---------- Introduction 固定画布缩放（1528×732 基准） ---------- */
+@media (max-width: 1280px) {
+    .intro-scale-wrapper {
+        transform: scale(0.75);
+        transform-origin: center center;
+    }
+}
+@media (max-width: 1024px) {
+    .intro-scale-wrapper {
+        transform: scale(0.55);
+        transform-origin: center center;
+    }
+}
+@media (max-width: 768px) {
+    .intro-scale-wrapper {
+        transform: scale(0.42);
+        transform-origin: center center;
+    }
+}
+@media (max-width: 480px) {
+    .intro-scale-wrapper {
+        transform: scale(0.28);
+        transform-origin: center center;
+    }
+}
+
+/* ---------- 大屏微调（≤1440） ---------- */
+@media (max-width: 1440px) {
+    .main-header { padding: 0 32px; }
+    .header-logo .logo-icon { width: 58px; height: 40px; }
+    .header-logo .logo-text { height: 26px; }
+    .header-nav .nav-link { margin-left: 24px; font-size: 16px; }
+    .ui-status { top: 90px; right: 32px; font-size: 10px; }
+    .top-left { left: 32px; width: 180px; }
+    .bottom-right { right: 32px; bottom: 32px; width: 260px; }
+    .bottom-left-group { left: 32px; bottom: 32px; }
+    .vertical-ruler { left: 32px; }
+    .intro-text { left: min(620px, 42vw); width: min(860px, 52vw); font-size: 13px; }
+    .terminal-prompt { left: 50px; }
+    .page-title { font-size: max(3rem, min(8vw, 6rem)); letter-spacing: 0.04em; }
+}
+
+/* ---------- 中大屏（≤1280） ---------- */
+@media (max-width: 1280px) {
+    .main-header { height: 68px; padding: 0 28px; }
+    :root { --header-height: 68px; }
+    .header-logo .logo-icon { width: 52px; height: 36px; margin-right: 8px; }
+    .header-logo .logo-text { height: 24px; }
+    .header-logo { transform: translateX(-16px); }
+    .header-nav .nav-link { margin-left: 20px; font-size: 15px; }
+    .ui-status { top: 84px; right: 28px; padding: 8px 12px; font-size: 10px; }
+    .top-left { top: 88px; left: 28px; width: 160px; height: 88px; }
+    .bottom-right { right: 28px; bottom: 28px; width: 240px; height: 72px; }
+    .bottom-left-group { left: 28px; bottom: 28px; gap: 12px; }
+    .vertical-ruler { left: 28px; }
+    .intro-text {
+        top: 140px;
+        left: min(480px, 38vw);
+        width: min(720px, 58vw);
+        font-size: 13px;
+        padding: 16px;
+    }
+    .terminal-prompt { top: 108px; left: 40px; font-size: 13px; }
+    .page-title { font-size: max(2.5rem, min(6vw, 5rem)); letter-spacing: 12px; }
+    #app-container { background-position: 0 68px; }
+    .layer-grid { background-position: 0 68px; }
+    .members-container { padding-top: 68px; }
+    .honor-main { top: 68px; padding: 32px 56px 0 56px; }
+}
+
+/* ---------- 平板 / 小桌面（≤1024） ---------- */
+@media (max-width: 1024px) {
+    .main-header { height: 64px; padding: 0 20px; }
+    .header-logo .logo-icon { width: 48px; height: 33px; margin-right: 6px; }
+    .header-logo .logo-text { height: 22px; }
+    .header-logo { transform: translateX(-10px); }
+    .header-nav .nav-link { margin-left: 16px; font-size: 14px; }
+    .ui-status { top: 78px; right: 20px; padding: 6px 10px; font-size: 9px; }
+    .top-left { top: 80px; left: 20px; width: 140px; height: 80px; }
+    .bottom-right { right: 20px; bottom: 20px; width: 200px; height: 64px; }
+    .bottom-right::after { width: 80px; }
+    .bottom-left-group { left: 20px; bottom: 20px; gap: 10px; }
+    .vertical-ruler { left: 20px; gap: 6px; }
+    .ruler-mark { width: 3px; height: 3px; }
+    .ruler-mark.active { width: 10px; }
+    .intro-text {
+        top: 128px;
+        left: 24px;
+        right: 24px;
+        width: auto;
+        max-width: 520px;
+        font-size: 12px;
+        padding: 14px;
+    }
+    .terminal-prompt { top: 96px; left: 24px; font-size: 12px; }
+    .page-title { font-size: max(2rem, min(5vw, 4rem)); letter-spacing: 8px; }
+    .glitch-box { font-size: 6vw; }
+    .code-snippet { font-size: 9px; }
+    .layer-code { padding: 60px 24px; }
+    #app-container { background-position: 0 64px; background-size: 32px 32px; }
+    .layer-grid { background-position: 0 64px; background-size: 32px 32px; }
+    .members-container { padding-top: 64px; }
+    .members-right-panel-inner { padding-left: 32px; padding-bottom: 80px; }
+    .right-main-title { font-size: max(48px, min(10vw, 100px)); height: auto; min-height: 120px; }
+    ._f64cc8ea { font-size: 26px; width: 90px; }
+    .honor-main { top: 64px; padding: 24px 24px 0 24px; }
+    #section-honor .page-footer { margin-left: -24px; margin-right: -24px; padding: 20px 24px; }
+}
+
+/* ---------- 竖屏平板 / 大手机（≤768） ---------- */
+@media (max-width: 768px) {
+    .main-header { height: 56px; padding: 0 16px; }
+    .header-logo .logo-icon { width: 40px; height: 28px; margin-right: 6px; }
+    .header-logo .logo-text { height: 18px; }
+    .header-logo { transform: translateX(0); }
+    .header-nav .nav-link { margin-left: 12px; font-size: 13px; }
+    .ui-status { top: 64px; right: 16px; padding: 6px 8px; font-size: 9px; }
+    .top-left { top: 64px; left: 16px; width: 120px; height: 64px; }
+    .bottom-right { right: 16px; bottom: 16px; width: 160px; height: 56px; }
+    .bottom-left-group { left: 16px; bottom: 16px; flex-wrap: wrap; gap: 8px; }
+    .vertical-ruler { left: 16px; }
+    .intro-text {
+        top: 100px;
+        left: 16px;
+        right: 16px;
+        max-width: none;
+        font-size: 11px;
+        padding: 12px;
+        border-left-width: 1px;
+    }
+    .intro-text h4 { font-size: 12px; }
+    .terminal-prompt { top: 78px; left: 16px; font-size: 11px; }
+    .page-title { font-size: max(1.5rem, min(4vw, 2.5rem)); letter-spacing: 4px; }
+    .glitch-box { font-size: 5vw; }
+    .layer-code { padding: 40px 16px; opacity: 0.3; }
+    #app-container { background-position: 0 56px; background-size: 28px 28px; }
+    .layer-grid { background-position: 0 56px; background-size: 28px 28px; }
+    .members-container { padding-top: 56px; }
+    .grid-scroll-area { padding: 20px 16px; }
+    .grid { max-width: 100%; gap: 12px; margin-top: 12px; }
+    .card { min-width: 140px; max-width: 200px; }
+    .members-right-panel-inner { padding-left: 20px; padding-bottom: 60px; }
+    .right-main-title { font-size: max(36px, min(8vw, 64px)); min-height: 80px; }
+    ._ee2cd206 { font-size: 18px; gap: 10px; }
+    ._1fde3ce2 { width: 28px; height: 40px; }
+    ._f64cc8ea { font-size: 22px; width: 72px; }
+    .honor-main { top: 56px; padding: 16px 16px 0 16px; }
+    .timeline-axis { left: 20px; }
+    .year-section { grid-template-columns: 80px 1fr; gap: 12px; }
+    .year { width: 72px; font-size: 12px; padding: 0 6px; height: 32px; line-height: 32px; }
+    .awards-group { margin-left: 12px; gap: 16px; }
+    .award { width: calc(100% - 60px); padding: 10px; }
+    #section-honor .page-footer { margin-left: -16px; margin-right: -16px; padding: 16px 16px; margin-top: 40px; }
+}
+
+/* ---------- 小屏手机（≤480） ---------- */
+@media (max-width: 480px) {
+    .main-header { height: 52px; padding: 0 12px; }
+    .header-logo .logo-icon { width: 36px; height: 25px; margin-right: 4px; }
+    .header-logo .logo-text { height: 16px; }
+    .header-nav .nav-link { margin-left: 10px; font-size: 12px; }
+    .ui-status { top: 58px; right: 12px; padding: 4px 6px; font-size: 8px; }
+    .top-left { top: 58px; left: 12px; width: 100px; height: 52px; }
+    .bottom-right { right: 12px; bottom: 12px; width: 130px; height: 48px; }
+    .bottom-right::after { width: 60px; height: 3px; }
+    .bottom-left-group { left: 12px; bottom: 12px; gap: 6px; }
+    .warning-stripe-inline { width: 70px; height: 8px; }
+    .decor-text { font-size: 10px; letter-spacing: 4px; }
+    .vertical-ruler { left: 12px; gap: 4px; }
+    .intro-text {
+        top: 88px;
+        left: 12px;
+        right: 12px;
+        font-size: 10px;
+        padding: 10px;
+    }
+    .intro-text h4 { font-size: 11px; }
+    .terminal-prompt { top: 70px; left: 12px; font-size: 10px; }
+    .page-title { font-size: max(1.2rem, min(5vw, 1.8rem)); letter-spacing: 2px; }
+    .glitch-box { font-size: 4vw; }
+    #app-container { background-position: 0 52px; background-size: 24px 24px; }
+    .layer-grid { background-position: 0 52px; background-size: 24px 24px; }
+    .members-container { padding-top: 52px; }
+    .grid-scroll-area { padding: 16px 12px; }
+    .grid { gap: 10px; margin-top: 8px; }
+    .card { width: calc((100% - 10px) / 2); min-width: 120px; max-width: 180px; }
+    .member-name { font-size: 18px; }
+    .members-right-panel-inner { padding-left: 16px; padding-bottom: 48px; }
+    .right-main-title { font-size: max(28px, min(7vw, 48px)); min-height: 64px; }
+    ._ee2cd206 { font-size: 16px; gap: 8px; }
+    ._1fde3ce2 { width: 24px; height: 32px; }
+    ._f64cc8ea { font-size: 18px; width: 60px; }
+    .honor-main { top: 52px; padding: 12px 12px 0 12px; }
+    .timeline-axis { left: 12px; }
+    .year-section { grid-template-columns: 64px 1fr; gap: 8px; }
+    .year { width: 56px; font-size: 11px; height: 28px; line-height: 28px; margin-right: 8px; }
+    .awards-group { margin-left: 8px; gap: 12px; }
+    .award { width: 100%; padding: 8px; }
+    .award-time, .award-level { font-size: 11px; }
+    .axis-point-wrap::before { width: 12px; height: 12px; }
+    .axis-point-inner { width: 8px; height: 8px; }
+    #section-honor .page-footer { margin-left: -12px; margin-right: -12px; padding: 12px 12px; margin-top: 32px; }
+}
+
+/* ---------- 防止内容溢出与最小宽度 ---------- */
+html {
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    min-width: 320px;
+}
+.C0BA1T {
+    min-width: 320px;
+    min-height: 100vh;
+}
+/* 小屏下允许纵向滚动（若某 section 需滚动） */
+@media (max-width: 1024px) {
+    .spa-section.active {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}

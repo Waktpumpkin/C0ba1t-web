@@ -1,0 +1,374 @@
+/* Honor Page Specific Styles */
+
+/* 1. Variables & Base Overrides (Scoped to #section-honor) */
+#section-honor.active {
+    z-index: 20; /* Ensure it's above background layers and canvas */
+}
+
+/* 与 C0ba1t_webpage_honnor 一致：整页使用 Oswald + Noto Sans SC */
+#section-honor {
+    --bg-color: #0c0c0c;
+    --card-bg: #141414;
+    --text-main: #ffffff;
+    --text-gray: #5a5a5a;
+    --accent-blue: #23ade5;
+    --border-light: rgba(255, 255, 255, 0.1);
+    --border-heavy: #ffffff;
+    --left-panel-width: 60%;
+
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+    box-sizing: border-box;
+    /* 不单独画网格，透出全局 .layer-grid，切页时背景不变动 */
+    background-color: transparent;
+}
+
+/* 2. Main Layout：从 header 下方开始铺满剩余高度，无底部空隙 */
+.honor-main {
+    position: absolute;
+    top: 75px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    overflow: auto;
+    padding: 40px 72px 0 72px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    z-index: 10;
+    box-sizing: border-box;
+}
+
+.honor-main::-webkit-scrollbar{
+    display: none; /* Chrome, Edge, Safari */
+    width: 0;
+    height: 0;
+}
+
+/* 3. Timeline Axis - 与 C0ba1t_webpage_honnor/CSS/timeline.css 一致 */
+.timeline {
+    position: relative;
+    min-height: 0;
+}
+
+.timeline-axis {
+    position: absolute;
+    left: calc(33.3333vw - 131px);
+    top: 0;
+    bottom: 40px;
+    width: 2px;
+    background-color: #ffffff;
+    box-shadow: 0 0 8px rgba(255,255,255,0.12);
+    transform: translateX(-1px);
+    transform-origin: top center;
+    will-change: transform;
+}
+
+/* Honor 切入：竖线 + 时间点「楼梯式」伸出动画 */
+#section-honor.honor-staircase-entering .timeline-axis {
+    animation: honor-axis-extend 0.6s ease-out forwards;
+}
+
+@keyframes honor-axis-extend {
+    0% { transform: translateX(-1px) scaleY(0); }
+    100% { transform: translateX(-1px) scaleY(1); }
+}
+
+#section-honor.honor-staircase-entering .axis-point-wrap {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+    animation: honor-point-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes honor-point-in {
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* 竖线左侧年份与时间点同步、依次出现 */
+#section-honor.honor-staircase-entering .timeline .year {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: honor-year-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes honor-year-in {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 右侧 award 与时间点同步、依次出现 */
+#section-honor.honor-staircase-entering .timeline .award {
+    opacity: 0;
+    transform: translateX(24px);
+    animation: honor-award-in 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+@keyframes honor-award-in {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ========== Honor 切出：与切入相反，竖线从下向上缩短，时间点与 award 从最下方开始依次消失（梯子收回） ========== */
+/* 竖线：顶端固定，从下向上缩短 */
+#section-honor.honor-staircase-exiting .timeline-axis {
+    transform-origin: top center;
+    animation: honor-axis-retract 1s ease-in forwards;
+    animation: honor-axis-retract var(--honor-axis-retract-duration, 1s) ease-in forwards;
+}
+
+@keyframes honor-axis-retract {
+    0% { transform: translateX(-1px) scaleY(1); }
+    100% { transform: translateX(-1px) scaleY(0); }
+}
+
+/* 时间点/年份/奖项切出：由 JS 内联完整 animation 控制顺序，此处仅保留 keyframes 供复用 */
+@keyframes honor-point-out {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+}
+
+@keyframes honor-year-out {
+    0% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(-20px); }
+}
+
+@keyframes honor-award-out {
+    0% { opacity: 1; transform: translateX(0); }
+    100% { opacity: 0; transform: translateX(24px); }
+}
+
+@media (max-width: 800px) {
+    .timeline-axis {
+        left: calc(18vw - 131px);
+    }
+}
+
+/* 4. Years - from year.css */
+.year-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 年份组之间的垂直间距 */
+    padding: 20px 0;
+}
+
+.year-section {
+    display: grid;
+    /* 左列与轴位置保持一致并整体左移 131px */
+    grid-template-columns: calc(33.3333vw - 131px) 1fr; /* 左列等于竖轴位置（屏幕1/3），但左移 */
+    align-items: start;
+    grid-gap: 20px;
+    gap: 20px;
+    --year-font-size: 25px;
+    --year-font-size-mobile: 14px;
+    --year-block-height: 44px;
+    --year-block-height-mobile: 36px;
+}
+
+.year {
+    justify-self: end; /* 右对齐到左列的结束（靠近轴） */
+    margin-right: 16px; /* 与轴保留水平间距，和奖项列一致 */
+    background: var(--card-bg);
+    color: var(--text-main);
+    padding: 0 12px; /* 水平内边距保留，垂直使用固定高度与行高实现居中 */
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: var(--year-font-size);
+    height: var(--year-block-height);
+    line-height: var(--year-block-height);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    width: 120px;
+    text-align: center;
+}
+
+@media (max-width: 800px){
+    .year-section{ grid-template-columns: 100px 1fr; }
+    .year{ width: 86px; padding:0 10px; font-size: var(--year-font-size-mobile); height: var(--year-block-height-mobile); line-height: var(--year-block-height-mobile); }
+}
+
+/* 5. Awards - from award.css */
+.awards-group {
+    --award-offset: 50px; /* 可调：奖项相对于年份的垂直偏移（已改为25px） */
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 92%;
+    margin-left: 16px; /* 与轴保留水平间距 */
+    margin-top: 50px;
+    margin-top: var(--award-offset); /* 向下偏移，使奖项在年份下方开始 */
+}
+
+.award {
+    background: var(--card-bg);
+    color: var(--text-main);
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.45);
+    width: calc(100% - 180px);
+    transition: transform 180ms cubic-bezier(.2,.8,.2,1), box-shadow 180ms ease;
+    will-change: transform;
+}
+
+.award .line1 {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.award-time {
+    background: rgba(255,255,255,0.08);
+    padding: 6px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.award-level {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px 6px 40px; /* 为图标留出左侧空间 */
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-main); /* 使用主要文本色（白色）以提升可读性 */
+    background-color: #141414; /* 使用指定深色背景 */
+    background-repeat: no-repeat;
+    background-position: 12px center;
+    background-size: 20px 20px;
+    border: none; /* 移除边框效果 */
+}
+
+/* Updated paths to honor assets */
+.award-level.first{ background-image: url('../assets/honor/1.png'); }
+.award-level.second{ background-image: url('../assets/honor/2.png'); }
+.award-level.third{ background-image: url('../assets/honor/3.png'); }
+
+.award-name {
+    font-size: 14px;
+    color: var(--text-main);
+    opacity: 0.95;
+}
+
+@media (max-width: 800px){
+    .awards-group{ width: 100%; }
+    .award{ padding:10px; }
+    .award-time, .award-level{ font-size:12px }
+}
+
+/* 6. Points on Axis - from point.css */
+.axis-point-wrap {
+    position: absolute;
+    /* 使用与外环相同的小尺寸，避免绝对容器扩展滚动区域 */
+    width: 18px;
+    height: 18px;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 120;
+}
+
+.axis-point-wrap::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: none;
+    background: var(--text-main);
+    box-shadow: 0 0 8px rgba(255,255,255,0.12);
+    z-index: 110;
+}
+
+.axis-point-inner {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.14);
+    z-index: 120;
+}
+
+.axis-point-inner.first { background: #FFD700; box-shadow: 0 0 12px rgba(255,215,0,0.28); }
+.axis-point-inner.second { background: #9d9d9f; box-shadow: 0 0 10px rgba(192,192,192,0.22); }
+.axis-point-inner.third { background: #aa7a0d; box-shadow: 0 0 10px rgba(184,115,51,0.25); }
+.axis-point-inner.other { background: #ffffff; box-shadow: 0 0 10px rgba(255,255,255,0.14); }
+
+@media (max-width: 800px){
+    .axis-point-inner{ width: 10px; height: 10px; }
+    .axis-point-wrap::before{ width: 14px; height: 14px; }
+}
+
+/* 7. Footer - 与 C0ba1t_webpage_honnor/CSS/footer.css 一致：字体、间距、logo 尺寸 */
+#section-honor .page-footer {
+    margin-top: 56px;
+    margin-left: -72px;
+    margin-right: -72px;
+    margin-bottom: 0;
+    padding: 24px 72px;
+    background: #070707;
+    color: var(--text-gray);
+    border-top: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    z-index: 15;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+#section-honor .page-footer-inner {
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+    font-size: 14px;
+    opacity: 0.95;
+    line-height: 1.0;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#section-honor .page-footer-brand {
+    margin-top: 12px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+}
+
+#section-honor .page-footer-brand img { display: block; }
+#section-honor .footer-logo-main { height: 36px; width: auto; }
+#section-honor .footer-logo-text { height: 22px; width: auto; opacity: 0.95; }
+
+@media (max-width: 800px) {
+    #section-honor .page-footer {
+        margin-left: -20px;
+        margin-right: -20px;
+        padding: 18px 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    #section-honor .page-footer-brand { flex-direction: column; gap: 6px; }
+    #section-honor .footer-logo-main { height: 30px; }
+    #section-honor .footer-logo-text { height: 18px; }
+}

@@ -3,100 +3,669 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C0BA1T战队</title>
+    <title>C0ba1t</title>
+    <link rel="icon" href="assets/C0ba1t-icon.jpg" type="image/png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/transition.css">
+    <link rel="stylesheet" href="css/ui.css">
+    <link rel="stylesheet" href="css/members.css">
+    <link rel="stylesheet" href="css/honor.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>    /* SPA Section Styles */
+        .spa-section {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none;
+        }
+
+        .spa-section.active {
+            display: block;
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Staggered Animation Classes */
+        .stagger-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: staggerFadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes staggerFadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 左上角、右上角：从上到下切入 */
+        .stagger-in-from-top {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: staggerFadeInFromTop 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes staggerFadeInFromTop {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
+        /* Members & Honor Titles（font-size 由 responsive.css 控制以适配分辨率） */
+        .page-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Oswald', sans-serif;
+            color: var(--text-dim);
+            opacity: 0.1;
+            z-index: 10;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- Transition Overlay -->
+    <div id="transition-overlay" class="transition-active">
+        <div class="transition-panel"></div>
+        <div class="transition-panel"></div>
+        <div class="transition-panel"></div>
+        <div class="transition-panel"></div>
+        <div class="transition-panel"></div>
+        <div id="transition-loading">
+            <div class="loading-icon"></div>
+            <span>SYSTEM LOADING...</span>
+        </div>
+    </div>
+
     <div class="C0BA1T">
-        <!-- 导航菜单 -->
         <header class="main-header">
             <div class="header-logo">
-                <img src="assets/战队LOGO图案无背景.png" alt="Team Logo" class="logo-icon">
-                <img src="assets/战队LOGO文字无背景.png" alt="C0BA1T" class="logo-text">
+                <img src="assets/C0ba1t-logo.png" alt="Team Logo" class="logo-icon">
+                <img src="assets/C0ba1t-txt.png" alt="C0BA1T" class="logo-text">
             </div>
             <nav class="header-nav">
-                <span>HOME</span>
-                <span class="active">INTRODUCTION</span>
-                <span>MEMBERS</span>
-                <span>HONNER</span>
+                <span class="nav-link" data-target="home">HOME</span>
+                <span class="nav-link" data-target="introduction">INTRODUCTION</span>
+                <span class="nav-link" data-target="members">MEMBERS</span>
+                <span class="nav-link" data-target="honor">HONOR</span>
             </nav>
         </header>
 
-        <!-- 终端命令提示符 -->
-        <div class="terminal-prompt">
-            <span class="prompt-bracket">[</span><span class="prompt-root">root</span><span class="prompt-at">@</span><span class="prompt-host">C0ba1t</span>
-            <span class="prompt-path">~/Desktop</span><span class="prompt-bracket">]</span>
-            <span class="prompt-symbol">#</span>
-            <span class="prompt-cmd"></span><span class="cursor">_</span>
-        </div>
-
-        <!-- 介绍文字 -->
-        <div class="intro-text" style="opacity: 0; transition: opacity 1s ease-in-out;">
-            <p>C0BA1T战队成立于2021年，是重庆工商大学专注于网络安全竞赛与人才培养的专业战队。战队由CO科创团队CTF方向核心成员组成，在信息技术中心的专业指导以及人工智能学院、CO科创团队的大力支持下，已发展成为校内网络安全领域的中坚力量，形成了独具特色的"2234"发展模式。</p>
-            
-            <h4>"2"——两大平台依托</h4>
-            <p>战队的发展离不开坚实的平台支撑。信息技术中心（林丹、梁力源、田昌鹏等老师）为战队提供优质实验平台、技术资源与全方位支持；人工智能学院提供专业的学科建设支持与人才培养环境。依托这两大平台，战队在短时间内实现跨越式发展。</p>
-            
-            <h4>"2"——两项常态赛事</h4>
-            <p>战队建立了制度化、常态化的人才选拔与培养机制。每年9月的新生选拔赛为战队注入新鲜血液，每年5月的全校CTF比赛则成为校内网络安全爱好者展示实力、交流技术的重要舞台。这两项赛事已逐渐成为学校网络安全人才培养的标志性活动。</p>
-            
-            <h4>"3"——三类赛事布局</h4>
-            <p>战队形成了层次分明、梯度递进的参赛体系。在市级赛事层面，以"山城杯"、"巴渝杯"、重庆市大学生信息安全竞赛等为根基，巩固区域优势；在国家级赛事层面，积极征战全国大学生信息安全竞赛、"长城杯"铁人三项、全国大学生软件创新大赛、数字中国数据安全赛、大学生信息安全对抗竞赛等高水平赛事；在国际级赛事层面，部分优秀成员加入N0wayBack、r3kapig等国内外高校联队，参与更高层次的国际竞技。</p>
-            
-            <h4>"4"——四个显著成果</h4>
-            <p>经过持续发展，战队取得了显著成果。在市级赛事层面，长期保持重庆市网络安全赛事领先地位，打破本地传统强校垄断，成为市内领军队伍之一；在国家级赛事层面，实现学校在网络安全国家级竞赛中从无到有的历史性跨越，并持续保持优秀成绩；在校企合作层面，与中国移动、启明星辰、安可信等知名企业建立深度合作，获得赛事赞助与技术支持；在就业升学层面，人才培养成果显著，队员进入腾讯玄武实验室、绿盟科技、奇安信等知名企业实习或就业。</p>
-            
-            <p class="summary">未来，C0BA1T战队将继续秉承"以赛促学、以练促战"的理念，依托两大平台，完善赛事体系，深耕三类布局，争创更多成果。将竞赛经验转化为学校网络安全建设的实际助力，为守护国家网络空间安全、培育高素质网络安全人才贡献青春力量。</p>
-        </div>
-
-        <!-- 背景基础层 -->
-        <div class="layer layer-base"></div>
-        
-        <!-- 网格层 -->
-        <div class="layer layer-grid"></div>
-        
-        <!-- 扫描线效果 -->
-        <!-- <div class="layer layer-scanlines"></div> -->
-        
-        <!-- UI框架层 -->
-    <div class="layer layer-ui">
-        <div class="ui-frame top-left"></div>
-        <!-- <div class="hex-dots top-right"></div> -->
-        
-        <!-- 垂直标尺  -->
-        <div class="vertical-ruler">
-            <div class="ruler-mark"></div>
+        <!-- Global Vertical Ruler -->
+        <div class="vertical-ruler stagger-in delay-3">
             <div class="ruler-mark active"></div>
             <div class="ruler-mark"></div>
             <div class="ruler-mark"></div>
+            <div class="ruler-mark"></div>
         </div>
 
-        <div class="ui-frame bottom-right"></div>
+        <!-- Main Content Area -->
+        <main id="app-container">
+            <!-- HOME SECTION -->
+            <section id="section-home" class="spa-section active">
+                <div class="layer layer-ui">
+                </div>
+                <p class="home-placeholder"><span class="home-placeholder-inner"></span><span class="home-placeholder-cursor">|</span></p>
+            </section>
 
-        <div class="ui-status">
-            <div class="status-item">SYSTEM STATUS: <span class="green-text">ONLINE</span></div>
-            <div class="status-item">C0BA1T: <span class="green-text">TERMINAL ACCESS</span></div>
-        </div>
-    </div>
-        </div>
+            <!-- INTRODUCTION SECTION -->
+            <section id="section-introduction" class="spa-section">
+                <div id="intro-viewport-size" class="viewport-size-debug"></div>
+                <div class="intro-scale-wrapper">
+                <div class="terminal-prompt stagger-in delay-1">
+                    <span class="prompt-bracket">[</span><span class="prompt-root">root</span><span class="prompt-at">@</span><span class="prompt-host">C0ba1t</span>
+                    <span class="prompt-path">~/Desktop</span><span class="prompt-bracket">]</span>
+                    <span class="prompt-symbol">#</span>
+                    <span class="prompt-cmd"></span><span class="cursor">_</span>
+                </div>
 
-        <!-- 代码元素容器 -->
+                <div class="intro-text">
+                    <p>C0BA1T战队成立于2021年，是重庆工商大学专注于网络安全竞赛与人才培养的专业战队。战队由CO科创团队CTF方向核心成员组成，在信息技术中心的专业指导以及人工智能学院、CO科创团队的大力支持下，已发展成为校内网络安全领域的中坚力量，形成了独具特色的"2234"发展模式。</p>
+                    
+                    <h4>"2"——两大平台依托</h4>
+                    <p>战队的发展离不开坚实的平台支撑。信息技术中心（林丹、梁力源、田昌鹏等老师）为战队提供优质实验平台、技术资源与全方位支持；人工智能学院提供专业的学科建设支持与人才培养环境。依托这两大平台，战队在短时间内实现跨越式发展。</p>
+                    
+                    <h4>"2"——两项常态赛事</h4>
+                    <p>战队建立了制度化、常态化的人才选拔与培养机制。每年9月的新生选拔赛为战队注入新鲜血液，每年5月的全校CTF比赛则成为校内网络安全爱好者展示实力、交流技术的重要舞台。这两项赛事已逐渐成为学校网络安全人才培养的标志性活动。</p>
+                    
+                    <h4>"3"——三类赛事布局</h4>
+                    <p>战队形成了层次分明、梯度递进的参赛体系。在市级赛事层面，以"山城杯"、"巴渝杯"、重庆市大学生信息安全竞赛等为根基，巩固区域优势；在国家级赛事层面，积极征战全国大学生信息安全竞赛、"长城杯"铁人三项、全国大学生软件创新大赛、数字中国数据安全赛、大学生信息安全对抗竞赛等高水平赛事；在国际级赛事层面，部分优秀成员加入N0wayBack、r3kapig等国内外高校联队，参与更高层次的国际竞技。</p>
+                    
+                    <h4>"4"——四个显著成果</h4>
+                    <p>经过持续发展，战队取得了显著成果。在市级赛事层面，长期保持重庆市网络安全赛事领先地位，打破本地传统强校垄断，成为市内领军队伍之一；在国家级赛事层面，实现学校在网络安全国家级竞赛中从无到有的历史性跨越，并持续保持优秀成绩；在校企合作层面，与中国移动、启明星辰、安可信等知名企业建立深度合作，获得赛事赞助与技术支持；在就业升学层面，人才培养成果显著，队员进入腾讯玄武实验室、绿盟科技、奇安信等知名企业实习或就业。</p>
+                    
+                    <p class="summary">未来，C0BA1T战队将继续秉承"以赛促学、以练促战"的理念，依托两大平台，完善赛事体系，深耕三类布局，争创更多成果。将竞赛经验转化为学校网络安全建设的实际助力，为守护国家网络空间安全、培育高素质网络安全人才贡献青春力量。</p>
+                </div>
+
+                <div class="layer layer-ui">
+                    <div class="ui-frame top-left stagger-in-from-top delay-3"></div>
+                    <div class="ui-frame bottom-right stagger-in delay-3"></div>
+                    <div class="ui-status stagger-in-from-top delay-4">
+                        <div class="status-item">SYSTEM STATUS: <span class="green-text">ONLINE</span></div>
+                        <div class="status-item">C0BA1T: <span class="green-text">TERMINAL ACCESS</span></div>
+                    </div>
+                </div>
+                </div>
+            </section>
+
+            <!-- MEMBERS SECTION -->
+            <section id="section-members" class="spa-section">
+                <!-- Members Container (Replaces main-container) -->
+                <div class="members-container">
+                    <!-- 左侧面板 (60%) -->
+                    <aside class="members-left-panel">
+                        <div class="grid-scroll-area">
+                            <div class="grid">
+                                <!-- Grade 0000 - LEADERS -->
+                                <a href="#" target="_blank" class="card member-ch3nqu" data-grade="0000">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/kdxcxs.png');"></div>
+                                    <div class="card-overlay">
+                                         <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags">
+                                                    <span class="member-leader-tag origin-gold origin-adjust">ORIGIN</span>
+                                                    <span class="member-leader-tag">2020</span>
+                                                </div>
+                                                <div class="member-name-row"><span class="member-name">kdxcxs</span></div>
+                                                <div class="member-desc">No such file or directory</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" target="_blank" class="card" data-grade="0000">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/ch3nqu.png');"></div>
+                                    <div class="card-overlay">
+                                         <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">2021</span>
+                                                <div class="member-name-row"><span class="member-name">ch3nqu</span></div>
+                                                <div class="member-desc">6L+Z5Liq5Lq65b6I5oeS5LuA5LmI5Lmf5rKh55WZ5LiL</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 60px;">
+                                                <span class="member-role-tag misc-compact">MISC</span>
+                                                <div class="role-icon-placeholder" data-role="MISC"></div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 37px;">
+                                                <span class="member-role-tag">PWN</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="http://www.chleynx.top" target="_blank" class="card" data-grade="0000">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/chleynx.png');"></div>
+                                    <div class="card-overlay">
+                                         <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">2022</span>
+                                                <div class="member-name-row"><span class="member-name">chleynx</span></div>
+                                                <div class="member-desc">No such file or directory</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="https://g3rling.top" target="_blank" class="card" data-grade="0000" data-github="https://github.com/Gerling2004">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/G3rling.jpg');"></div>
+                                    <div class="card-overlay">
+                                         <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">2023</span>
+                                                <div class="member-name-row"><span class="member-name">G3rling</span></div>
+                                                <div class="member-desc">少说话，多做事</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag crypto">MISC</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="https://www.fulian23.com/" target="_blank" class="card" data-grade="0000">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                     <div class="member-avatar-circle" style="background-image: url('assets/avatar/fulian.jpg');"></div>
+                                    <div class="card-overlay">
+                                         <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">2024</span>
+                                                <div class="member-name-row"><span class="member-name">fulian</span></div>
+                                                <div class="member-desc">厚积薄发</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <!-- Grade 2024 -->
+                                <a href="https://www.fulian23.com/" target="_blank" class="card" data-grade="2024">
+                                    <div class="card-img" style="background-color: #2F2F2F;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/fulian.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">LEADER</span>
+                                                <div class="member-name-row"><span class="member-name">fulian</span></div>
+                                                <div class="member-desc">厚积薄发</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="https://www.wakt.top/" target="_blank" class="card" data-grade="2024">
+                                    <div class="card-img" style="background-color: #333333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/Wakt.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">Wakt</span></div>
+                                                <div class="member-desc">和光同尘，与时同舒</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">MISC</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="https://www.okabe.xin/" target="_blank" class="card" data-grade="2024" data-github="https://github.com/okabe666">
+                                    <div class="card-img" style="background-color: #383838;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/okabe.png');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">okabe</span></div>
+                                                <div class="member-desc">EI PSY CONGROO!</div> 
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">PWN</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <!-- Grade 2023 -->
+                                <a href="https://g3rling.top" target="_blank" class="card" data-grade="2023" data-github="https://github.com/Gerling2004">
+                                    <div class="card-img" style="background-color: #1e1e1e;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/G3rling.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">LEADER</span>
+                                                <div class="member-name-row"><span class="member-name">G3rling</span></div>
+                                                <div class="member-desc">少说话，多做事</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">MISC</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="https://annm5oi.site/" target="_blank" class="card" data-grade="2023">
+                                    <div class="card-img" style="background-color: #2c2c2c;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/Annms_.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">Annms_</span></div>
+                                                <div class="member-desc">菜比CTFer 随缘开发者</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag crypto">RE</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <!-- Grade 2022 -->
+                                <a href="http://www.chleynx.top" target="_blank" class="card" data-grade="2022">
+                                    <div class="card-img" style="background-color: #444;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/chleynx.png');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">LEADER</span>
+                                                <div class="member-name-row"><span class="member-name">chleynx</span></div>
+                                                <div class="member-desc">No such file or directory</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" target="_blank" class="card" data-grade="2022" data-github="http://github.com/lgxuan">
+                                    <div class="card-img" style="background-color: #262626;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/xuanSAMA.png');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">xuanSAMA</span></div>
+                                                <div class="member-desc">朝闻道，夕死可矣</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag crypto">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="https://ccjssjdyka.github.io/" target="_blank" class="card" data-grade="2022">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/feichai.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">feichai</span></div>
+                                                <div class="member-desc">这个人很高冷，什么都没有留下。</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">PWN</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" target="_blank" class="card" data-grade="2022">
+                                    <div class="card-img" style="background-color: #2a2a2a;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/kin.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">Kin</span></div>
+                                                <div class="member-desc">No such file or directory</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">CRYPTO</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <!-- Grade 2021 -->
+                                <a href="#" target="_blank" class="card member-ch3nqu" data-grade="2021">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/ch3nqu.png');"></div>
+                                    <div class="view-now-strip">
+                                        <span>VIEW INFO</span>
+                                        <svg viewBox="0 0 10 10" width="10" height="10"><path d="M0 0 L10 5 L0 10 Z" fill="currentColor"/></svg>
+                                    </div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag">LEADER</span>
+                                                <div class="member-name-row"><span class="member-name">ch3nqu</span></div>
+                                                <div class="member-desc">6L+Z5Liq5Lq65b6I5oeS5LuA5LmI5Lmf5rKh55WZ5LiL</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 60px;">
+                                                <span class="member-role-tag misc-compact">MISC</span>
+                                                <div class="role-icon-placeholder" data-role="MISC"></div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 37px;">
+                                                <span class="member-role-tag">PWN</span>
+                                                <div class="role-icon-placeholder" data-role="PWN"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" target="_blank" class="card" data-grade="2021" data-github="https://TT-KING.github.io">
+                                    <div class="card-img" style="background-color: #3a3a3a;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/TKOIA.jpeg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="leader-tags" aria-hidden="true"><span class="member-leader-tag" style="visibility:hidden">LEADER</span></div>
+                                                <div class="member-name-row"><span class="member-name">TKOIA</span></div>
+                                                <div class="member-desc">不管多离谱的情况，都可能成为真相</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 26px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <a href="#" target="_blank" class="card" data-grade="2021">
+                                    <div class="card-img" style="background-color: #2b2b2b;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/moon.jpg');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <div class="member-name-row" style="margin-top: 15px;"><span class="member-name">moon</span></div>
+                                                <div class="member-desc" style="margin-top: 6px;">专注Web安全，热衷于从复杂业务逻辑中挖掘隐藏漏洞。</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 37px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <!-- Grade 2020 -->
+                                <a href="#" target="_blank" class="card" data-grade="2020">
+                                    <div class="card-img" style="background-color: #333;"></div>
+                                    <div class="member-avatar-circle" style="background-image: url('assets/avatar/kdxcxs.png');"></div>
+                                    <div class="card-overlay">
+                                        <div class="card-bottom-info">
+                                            <div class="card-main-info">
+                                                <span class="member-leader-tag origin-gold origin-adjust">ORIGIN</span>
+                                                <div class="member-name-row"><span class="member-name">kdxcxs</span></div>
+                                                <div class="member-desc">No such file or directory</div>
+                                            </div>
+                                            <div class="card-role-col" style="bottom: 25px;">
+                                                <span class="member-role-tag">WEB</span>
+                                                <div class="role-icon-placeholder"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- 右侧面板 (40%)：内层 .members-right-panel-inner 整块做切出动画 -->
+                    <main class="members-right-panel">
+                        <div class="members-right-panel-inner">
+                            <div class="bg-text" id="bg-year-watermark">0000</div>
+                            <div>
+                                <div class="right-main-title">MEMBERS</div>
+                                <div class="pagination-container">
+                                    <div class="_ee2cd206">
+                                        <svg viewBox="0 0 24 24" class="_1fde3ce2" id="prev-grade-btn" style="transform: rotate(90deg);">
+                                            <path d="M7 10l5 5 5-5z" stroke="none" fill="currentColor"/>
+                                        </svg>
+                                        <div class="_f64cc8ea" id="current-grade">0000</div>
+                                        <svg viewBox="0 0 24 24" class="_1fde3ce2" id="next-grade-btn" style="transform: rotate(-90deg);">
+                                            <path d="M7 10l5 5 5-5z" stroke="none" fill="currentColor"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </div>
+                
+                <div class="layer layer-ui">
+                </div>
+            </section>
+
+            <!-- HONOR SECTION -->
+            <section id="section-honor" class="spa-section">
+                <div class="honor-main">
+                    <div class="timeline">
+                        <div class="timeline-axis" aria-hidden="true"></div>
+                        <div class="year-sections">
+                            <section class="year-section">
+                                <div class="year">2025</div>
+                                <div class="awards-group">
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.01</div><div class="award-level first">一等奖</div><div class="award-level second">二等奖</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">2024年重庆市大学生信息安全竞赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.01</div><div class="award-level first">一等奖</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">2025年全国高校大学生软件创新大赛-软件系统安全赛（攻防赛）西南赛区</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.03</div><div class="award-level second">二等奖</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">第十八届全国大学生信息安全竞赛（创新实践能力赛）暨第二届“长城杯”铁人三项赛（防护赛）四川赛区</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.04</div><div class="award-level third">铜奖</div></div>
+                                        <div class="award-name">2025数字中国数据安全积分赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.05</div><div class="award-level second">二等奖</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">2025年第22届全国大学生信息安全与对抗技术竞赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.05</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">2025年第18届全国大学生软件创新大赛-软件系统安全全国决赛（作品赛）</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2025.06</div><div class="award-level first">一等奖</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">第三届“山城杯”大学生网络安全联赛</div>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <section class="year-section">
+                                <div class="year">2024</div>
+                                <div class="awards-group">
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2024.03</div><div class="award-level first">一等奖</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">第一届“长城杯”信息安全铁人三项初赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2024.04</div><div class="award-level first">一等奖</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">2024年“巴渝杯”大学生网络安全联赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2024.04</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">2024年“巴渝杯”大学生网络安全联赛（作品赛）</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2024.04</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">第一届“长城杯”信息安全铁人三项半决赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2024.06</div><div class="award-level second">二等奖</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">2024年第十七届全国大学生信息安全实践能力赛西南赛区</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2024.09</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">2024年重庆市"巴渝杯"决赛</div>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <section class="year-section">
+                                <div class="year">2023</div>
+                                <div class="awards-group">
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2023.08</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">第十六届全国大学生信息安全竞赛创新实践能力赛</div>
+                                    </div>
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2023.11</div><div class="award-level second">二等奖</div><div class="award-level third">三等奖</div></div>
+                                        <div class="award-name">2023年重庆市大学生信息安全竞赛</div>
+                                    </div>
+                                </div>
+                            </section>
+                
+                            <section class="year-section">
+                                <div class="year">2021</div>
+                                <div class="awards-group">
+                                    <div class="award">
+                                        <div class="line1"><div class="award-time">2021.12</div><div class="award-level second">二等奖</div></div>
+                                        <div class="award-name">2021年"绿盟杯"大学生信息安全竞赛</div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div> <!-- Close .timeline here -->
+                        
+                    <!-- Footer moved outside .timeline, direct child of .honor-main -->
+                    <footer class="page-footer" role="contentinfo" aria-label="页面底栏">
+                        <div class="page-footer-inner">© 2026 C0ba1t</div>
+                        <div class="page-footer-inner">Designed by G3rling</div>
+                        <div class="page-footer-inner">Developed by Wakt and okabe</div>
+                        
+                        <div class="page-footer-brand">
+                            <img src="assets/logo.png" alt="C0ba1t logo" class="footer-logo-main">
+                            <img src="assets/logo_txt.png" alt="C0ba1t logo_txt" class="footer-logo-text">
+                        </div>
+                    </footer>
+                </div> <!-- Close .honor-main here -->
+            </section>
+        </main>
+
+        <!-- Common Background Layers -->
+        <div class="layer layer-base"></div>
+        <div class="layer layer-grid"></div>
         <div id="code-container" class="layer layer-code"></div>
-
-        <!-- 粒子画布 -->
         <canvas id="COba1tCanvas"></canvas>
-
-        <!-- 装饰文字 -->
-        <!-- <div class="bottom-left-group">
-            <div class="warning-stripe-inline"></div>
-            <div class="decor-text">C0BA1T</div>
-            <div class="warning-stripe-inline"></div>
-        </div> -->
     </div>
 
     <script src="js/lodash/lodash.js"></script>
     <script src="js/canvasClass.js"></script>
     <script src="js/particle.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/members.js"></script>
+    <script src="js/honor.js"></script>
+    <script src="js/home.js"></script>
+    <script src="js/navigation.js"></script>
 </body>
 </html>

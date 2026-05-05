@@ -1,6 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=Roboto+Mono:wght@400;500&family=Oswald:wght@400;700&display=swap');
+@font-face {
+    font-family: 'Oswald';
+    src: url('../assets/fonts/Oswald-wght.ttf') format('truetype');
+    font-weight: 200 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roboto Mono';
+    src: url('../assets/fonts/RobotoMono-wght.ttf') format('truetype');
+    font-weight: 100 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Noto Sans SC';
+    src: url('../assets/fonts/NotoSansSC-VF.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
 
 :root {
+    --header-height: 75px;
     --bg-color: #08080a;
     --grid-color: rgba(255, 255, 255, 0.03);
     --accent-blue: #ababab;
@@ -12,12 +35,13 @@
     --font-mono: 'Cascadia Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
 }
 
-@font-face {
+/* 若需使用 PP Fraktion Mono，请将字体放入项目（如 assets/fonts/）并改为本地路径 */
+/* @font-face {
     font-family: 'PP Fraktion Mono';
-    src: url('../../../wodniack_dev/fonts/PPFraktionMono-Regular.woff2') format('woff2');
+    src: url('../assets/fonts/PPFraktionMono-Regular.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
-}
+} */
 
 * {
     margin: 0;
@@ -29,8 +53,11 @@ body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background-color: #08080a;
     background-color: var(--bg-color);
+    font-family: 'Cascadia Mono', 'Cascadia Code', 'Consolas', 'Courier New', monospace;
     font-family: var(--font-mono);
+    color: #ffffff;
     color: var(--text-primary);
 }
 
@@ -38,6 +65,7 @@ body, html {
     position: relative;
     width: 100%;
     height: 100%;
+    background-color: #08080a;
     background-color: var(--bg-color);
     overflow: hidden;
 }
@@ -56,13 +84,17 @@ body, html {
     z-index: 1;
 }
 
-/* 基础网格层 */
+/* 网格层：默认隐藏（通用网格在 #app-container 上）；intro 页通过 body.page-intro 单独显示 */
 .layer-grid {
-    background-image: 
+    display: none;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-image:
         linear-gradient(var(--grid-color) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
     background-size: 40px 40px;
-    background-position: center 74px; 
+    background-position: 0 75px;
     z-index: 2;
 }
 

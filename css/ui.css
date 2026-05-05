@@ -1,17 +1,17 @@
-/* 顶部导航栏 */
+/* 顶部导航栏（与 navigation.css 共同作用，本文件后加载故覆盖部分样式以保持原视觉） */
 .main-header {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 74px; /* 调整为 74px，与 background-position: center 74px 对齐 */
+    height: 74px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 40px;
     border-bottom: 1px solid var(--grid-color);
     background: transparent;
-    z-index: 200; 
+    z-index: 200;
     user-select: none;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -30,20 +30,22 @@
 }
 
 .header-logo .logo-icon {
-    width: 65px; /* 60px + 5px */
-    height: 45px; /* 40px + 5px */
+    width: 65px;
+    height: 45px;
     margin-right: 5px;
-    object-fit: contain;
-    transform: translateX(-5px); /* 向左移动 5px */
+    -o-object-fit: contain;
+       object-fit: contain;
+    transform: translateX(-5px);
 }
 
 .header-logo .logo-text {
     height: 30px;
     width: auto;
-    object-fit: contain;
+    -o-object-fit: contain;
+       object-fit: contain;
     filter: grayscale(100%);
     display: block;
-    transform: translateX(-5px); /* 向左移动 5px */
+    transform: translateX(-5px);
 }
 
 .header-nav {
@@ -59,6 +61,7 @@
     cursor: pointer;
     transition: color 0.3s;
     font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+    letter-spacing: 1px;
 }
 
 .header-nav span:hover {
@@ -132,6 +135,7 @@
     position: absolute;
     bottom: 10px;
     right: 0;
+    width: 150px;
     width: var(--line-width, 150px);
     height: 2px;
     background-color: var(--accent-blue-bright);
@@ -276,19 +280,20 @@
     position: absolute;
     left: 40px;
     /* 局部居中：除去顶部菜单(75px)后的区域居中 */
-    /* top = 75px + (100% - 75px) / 2 = 75px + 50% - 37.5px = 50% + 37.5px */
     top: calc(50% + 37.5px);
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     gap: 8px;
     z-index: 20;
+    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ruler-mark {
     width: 4px;
     height: 4px;
     background-color: var(--text-dim);
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ruler-mark.active {
@@ -366,5 +371,7 @@
     color: var(--text-dim);
     white-space: pre;
     pointer-events: none;
-    user-select: none;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+            user-select: none;
 }

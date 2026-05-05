@@ -1,7 +1,7 @@
 class Point {
 
   constructor(orx, ory, size, colorNum = 0, canvas, cancelRandPlace = false) {
-    // 原始位置
+    // 原始位置（聚拢目标 / 图像上的位置）
     this.orx = orx;
     this.ory = ory;
     // 圆点大小
@@ -9,6 +9,9 @@ class Point {
     // 当前位置
     this.x = cancelRandPlace ? orx : Math.random() * canvas.width;
     this.y = cancelRandPlace ? ory : Math.random() * canvas.height;
+    // 入场时的起始位置（扩散消失时回到此处，与入场区域一致）
+    this.initialX = this.x;
+    this.initialY = this.y;
     // 下一个移动位置
     this.nx = orx;
     this.ny = ory;
@@ -28,9 +31,10 @@ class Point {
     // 解构变量
     const { Thickness, Drag, Ease, effectParticleMode } = options;
 
-    //移动速度
-    this.spx = (this.nx - this.x) / (ParticlePolymerizeFlag ? 30 : 60);
-    this.spy = (this.ny - this.y) / (ParticlePolymerizeFlag ? 30 : 60);
+    // 移动速度：聚拢与扩散使用相同除数，使切入与切出速度一致
+    const speedDivisor = 30;
+    this.spx = (this.nx - this.x) / speedDivisor;
+    this.spy = (this.ny - this.y) / speedDivisor;
 
     // 粒子原始位置距离判断
     let curDx = (mx - this.x),
@@ -71,26 +75,18 @@ class Point {
       this.spy += finalY;
     }
 
-    // 最终计算
+    // 最终计算：聚拢与散开都朝目标 (nx,ny) 移动，散开时仅同时做淡出
     if (!ParticlePolymerizeFlag && this.opacity > 0) {
-      this.x -= this.spx;
       this.opacity -= 0.04;
-
-      // 全部隐藏时直接移动到随机位置
       if (this.opacity <= 0) {
         this.x = this.nx;
         this.y = this.ny;
       }
-    } else {
-      this.x += this.spx;
-      if (this.opacity < 1)
-        this.opacity += 0.012;
+    } else if (this.opacity < 1) {
+      this.opacity += 0.012;
     }
-    if (!ParticlePolymerizeFlag && this.opacity > 0) {
-      this.y -= this.spy;
-    } else {
-      this.y += this.spy;
-    }
+    this.x += this.spx;
+    this.y += this.spy;
   }
 
   render() {
@@ -311,14 +307,24 @@ class DameDaneParticle {
     * 散开聚合控制
     * @param {boolean | undefined} flag 控制是否聚合，不传入则以当前状态取反
     */
+  /** 切出时散开范围的缩放，小于 1 可减小散开范围，粒子飞出距离更近 */
+  static DispersalRangeScale = 0.15;
+
   ParticlePolymerize(flag) {
     if (typeof flag === 'boolean') this.ParticlePolymerizeFlag = flag;
     else this.ParticlePolymerizeFlag = !this.ParticlePolymerizeFlag;
+    const scale = DameDaneParticle.DispersalRangeScale;
     this.PointArr.forEach(
       /** @param {Point} point */
       (point) => {
-        point.nx = this.ParticlePolymerizeFlag ? point.orx : Math.random() * this.canvasEle.width;
-        point.ny = this.ParticlePolymerizeFlag ? point.ory : Math.random() * this.canvasEle.height;
+        if (this.ParticlePolymerizeFlag) {
+          point.nx = point.orx;
+          point.ny = point.ory;
+        } else {
+          // 扩散（切出）：与切入对称。切入是从右向左聚集，切出则从左向右散开，水平方向统一向右
+          point.nx = point.orx + Math.abs(point.initialX - point.orx) * scale;
+          point.ny = point.ory + (point.initialY - point.ory) * scale;
+        }
       });
   }
 

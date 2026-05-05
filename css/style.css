@@ -1,3 +1,100 @@
 @import 'base.css';
 @import 'ui.css';
 @import 'intro.css';
+
+/* Introduction 页：main 透明以透出粒子；单独显示 .layer-grid 作为网格背景（在 canvas 下） */
+body.page-intro #app-container {
+    background-color: transparent !important;
+    background-image: none !important;
+}
+body.page-intro .layer-grid {
+    display: block;
+}
+/* 让鼠标能穿透到下方粒子画布，仅保留 intro 内需要点击的元件；wrapper 不设 auto 以便粒子能收到鼠标 */
+body.page-intro #app-container,
+body.page-intro #section-introduction {
+    pointer-events: none;
+}
+body.page-intro #section-introduction .terminal-prompt,
+body.page-intro #section-introduction .intro-text,
+body.page-intro #section-introduction .ui-status,
+body.page-intro #section-introduction .ui-frame {
+    pointer-events: auto;
+}
+
+/* 通用背景直接做在 main 上：底色 + 网格，所有页面共用，切页不重绘；main 在 canvas 之上 */
+#app-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    /* 与原先 .layer-base 一致，网格线用 --grid-color (rgba(255,255,255,0.03)) */
+    background-color: #111;
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: 0 75px;
+}
+
+.spa-section.active {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Members 左侧透出全局网格，Honor 透明以透出全局网格，切页时网格不重绘 */
+#section-members {
+    background-color: transparent;
+}
+#section-honor {
+    background-color: transparent;
+}
+
+/* 垂直标尺在 Members 和 Honor 页面应该隐藏，因为它们有自己的滚动条和导航逻辑 */
+/* 修正：这里不再通过 CSS 隐藏，因为用户反馈标尺“太底层了”可能是指被遮挡 */
+/* 我们将通过 JS 控制 opacity，并且在这里确保 z-index 足够高 */
+/* #section-members.active ~ .vertical-ruler, */
+/* #section-honor.active ~ .vertical-ruler { */
+/*    opacity: 0; */
+/*    pointer-events: none; */
+/* } */
+
+.vertical-ruler {
+    z-index: 100 !important; /* 确保标尺在 Members/Honor 的背景之上 */
+}
+
+/* Home 页：统一字体 + 占位文案与打字光标 */
+#section-home {
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+}
+#section-home .home-placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+    font-size: 1rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+    z-index: 5;
+    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
+}
+#section-home .home-placeholder-inner {
+    display: inline;
+    font-family: inherit;
+}
+#section-home .home-placeholder-cursor {
+    opacity: 1;
+    animation: home-cursor-blink 0.8s step-end infinite;
+}
+#section-home .home-placeholder-char-exit {
+    opacity: 0;
+    transition: opacity 0.06s ease-out;
+}
+@keyframes home-cursor-blink {
+    50% { opacity: 0; }
+}

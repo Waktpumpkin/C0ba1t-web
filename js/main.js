@@ -1,90 +1,11 @@
-/*
-const codeSnippets = [
-    "void main() {\n  gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);\n}",
-    "C0BA1T_CORE_INIT: SUCCESS",
-    "BUFFER_OVERFLOW_DETECTED: IGNORED",
-    "await C0BA1T.loadModule('central_processing')",
-    "for (let i = 0; i < 100; i++) {\n  execute(tasks[i]);\n}",
-    "0x43 0x30 0x62 0x61 0x31 0x74", // C0BA1T in hex
-    "CONNECTING TO NEURAL NETWORK...",
-    "ACCESS_LEVEL: ADMIN",
-    "// TODO: Optimize data throughput",
-    "if (latency > 0.05) {\n  rebalanceLoad();\n}",
-    "std::cout << \"C0BA1T terminal active\" << std::endl;",
-    "SELECT * FROM users WHERE status = 'ACTIVE';"
-];
+// 动画计时器存储，用于清理
+let introTimers = [];
+window.isIntroAnimFinished = false; // 全局状态标记：Intro 动画是否完成
 
-const container = document.getElementById('code-container');
-
-function createSnippet() {
-    const snippet = document.createElement('div');
-    snippet.className = 'code-snippet';
-    snippet.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-    
-    // 随机位置，避开中间区域 (30% - 70% 的宽高范围)
-    let x, y;
-    let safe = false;
-    let attempts = 0;
-    
-    while (!safe && attempts < 10) {
-        x = Math.random() * 80 + 10; // 10% - 90%
-        y = Math.random() * 80 + 10; // 10% - 90%
-        
-        // 检查是否在中间区域 (x: 30-70, y: 35-65)
-        // 这个区域大致覆盖了 Logo 的位置
-        if ((x > 30 && x < 70) && (y > 35 && y < 65)) {
-            // 在中间区域，重试
-            attempts++;
-        } else {
-            safe = true;
-        }
-    }
-    
-    // 如果重试多次仍失败，强制放到边缘
-    if (!safe) {
-        if (Math.random() > 0.5) {
-            x = Math.random() * 20 + 5; // 左侧
-        } else {
-            x = Math.random() * 20 + 75; // 右侧
-        }
-        y = Math.random() * 80 + 10; // y轴依然随机
-    }
-    
-    snippet.style.left = `${x}%`;
-    snippet.style.top = `${y}%`;
-    
-    // 随机动画时长
-    const duration = 5 + Math.random() * 10;
-    snippet.style.animation = `fade-in-out ${duration}s ease-in-out forwards`;
-    
-    container.appendChild(snippet);
-    
-    // 动画结束后移除
-    setTimeout(() => {
-        snippet.remove();
-    }, duration * 1000);
+function clearIntroTimers() {
+    introTimers.forEach(id => clearTimeout(id));
+    introTimers = [];
 }
-
-// 添加淡入淡出动画到 CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes fade-in-out {
-        0% { opacity: 0; transform: translateY(10px); }
-        20% { opacity: 0.5; transform: translateY(0); }
-        80% { opacity: 0.5; transform: translateY(0); }
-        100% { opacity: 0; transform: translateY(-10px); }
-    }
-`;
-document.head.appendChild(style);
-
-// 初始生成几个
-for (let i = 0; i < 5; i++) {
-    setTimeout(createSnippet, Math.random() * 5000);
-}
-
-// 持续生成
-setInterval(createSnippet, 3000);
-*/
 
 // 打字机效果
 function typeWriter(text, elementId, speed = 100, callback) {
@@ -98,8 +19,11 @@ function typeWriter(text, elementId, speed = 100, callback) {
         if (i < text.length) {
             element.textContent += text.charAt(i);
             i++;
-            setTimeout(type, speed + Math.random() * 50); // 增加一点随机感
+            // 记录计时器ID
+            const timerId = setTimeout(type, speed + Math.random() * 50);
+            introTimers.push(timerId);
         } else {
+            element.setAttribute('data-typed', 'true');
             if (callback) callback();
         }
     }
@@ -107,36 +31,196 @@ function typeWriter(text, elementId, speed = 100, callback) {
     type();
 }
 
-    // 页面加载完成后开始动画
-document.addEventListener('DOMContentLoaded', () => {
-    // 延迟一点时间开始，给用户一点准备
-    setTimeout(() => {
+// 冻结 Introduction 动画（仅暂停，不清除内容）
+// 用于页面切出时：先让文字/终端淡出，再由 navigation 稍后触发整块 section 切出
+window.freezeIntroductionAnimation = function() {
+    clearIntroTimers();
+    const cursor = document.querySelector('.cursor');
+    if (cursor) {
+        cursor.style.animation = 'none';
+        cursor.style.opacity = '0';
+    }
+    // 文字与终端先淡出（约 0.3s），与后方 section 切出做先后顺序
+    const contentFade = '0.3s';
+    const introText = document.querySelector('.intro-text');
+    if (introText) {
+        introText.style.transition = `opacity ${contentFade} ease-out`;
+        void introText.offsetWidth;
+        introText.style.opacity = '0';
+    }
+    const cmd = document.querySelector('.prompt-cmd');
+    if (cmd) {
+        cmd.style.transition = `opacity ${contentFade} ease-out`;
+        void cmd.offsetWidth;
+        cmd.style.opacity = '0';
+    }
+}
+
+// 停止 Introduction 动画（清理所有计时器并重置状态）
+window.stopIntroductionAnimation = function() {
+    clearIntroTimers();
+    window.isIntroAnimFinished = false; // 重置状态
+    
+    // 立即隐藏文字和清空终端，防止切回时出现“先显示再重置”的闪烁
+    const cmd = document.querySelector('.prompt-cmd');
+    const introText = document.querySelector('.intro-text');
+    
+    if (cmd) {
+        cmd.textContent = '';
+        cmd.removeAttribute('data-typed');
+        cmd.style.opacity = '1'; // 恢复透明度以便下次显示
+    }
+    
+    if (introText) {
+        // 移除 transition 以便立即隐藏
+        introText.style.transition = 'none';
+        introText.style.opacity = '0';
+    }
+}
+
+// Introduction 页面动画逻辑
+window.startIntroductionAnimation = function() {
+    // 1. 先清理之前的动画，防止冲突
+    clearIntroTimers();
+    window.isIntroAnimFinished = false; // 重置状态
+
+    // 2. 重置 UI 状态 (确保从头开始)
+    const cmd = document.querySelector('.prompt-cmd');
+    const cursor = document.querySelector('.cursor');
+    const introText = document.querySelector('.intro-text');
+    
+    if (cmd) {
+        cmd.textContent = '';
+        cmd.removeAttribute('data-typed');
+        cmd.style.opacity = '1';
+    }
+    if (cursor) {
+        cursor.style.display = 'inline'; // 显示光标
+        cursor.style.opacity = '1';
+    }
+    if (introText) {
+        introText.style.opacity = '0'; // 隐藏介绍文字
+    }
+
+    // 3. 开始新的动画序列
+    const t1 = setTimeout(() => {
         // 开始打字
-        typeWriter('cat Introduction', '.prompt-cmd', 100, () => {
+        // 将速度从 100ms 改为 40ms，显著加快打字速度
+        typeWriter('cat Introduction', '.prompt-cmd', 40, () => {
             // 打字完成后
             
-            // 1. 移除闪烁光标
-            const cursor = document.querySelector('.cursor');
+            // 移除光标
             if (cursor) {
                 cursor.style.display = 'none';
             }
             
-            // 2. 模拟回车后的延迟
-            setTimeout(() => {
-                // 3. 加载粒子特效
+            // 模拟回车后的延迟
+            const t2 = setTimeout(() => {
+                // 加载粒子特效
                 if (window.startParticleEffect) {
                     window.startParticleEffect();
                 }
                 
-                // 4. 淡入介绍文字
-                const introText = document.querySelector('.intro-text');
+                // 淡入介绍文字
                 if (introText) {
+                    // 添加过渡效果，确保与粒子淡入时间(2s)一致
+                    introText.style.transition = 'opacity 2s ease-in-out';
+                    // 强制重绘以确保 transition 生效
+                    void introText.offsetWidth;
                     introText.style.opacity = '1';
+                    
+                    // 标记动画完成（2s 后）
+                    const t3 = setTimeout(() => {
+                        window.isIntroAnimFinished = true;
+                    }, 2000);
+                    introTimers.push(t3);
                 }
                 
-            }, 500); // 500ms 延迟
+            }, 300); // 300ms 延迟
+            introTimers.push(t2);
         });
-    }, 1000); // 1秒后开始打字
+    }, 500); // 0.5秒后开始打字
+    introTimers.push(t1);
+}
+
+// Members 页卡片头像后台预加载（进入 home 后即开始，切到 members 时已缓存）
+function preloadMemberAvatars() {
+    var circles = document.querySelectorAll('.member-avatar-circle');
+    if (!circles.length) return;
+    var urls = [];
+    circles.forEach(function (el) {
+        var bg = el.style && el.style.backgroundImage;
+        if (!bg) return;
+        var m = bg.match(/url\s*\(\s*['"]?([^'")]+)['"]?\s*\)/);
+        if (m && m[1]) urls.push(m[1]);
+    });
+    urls = urls.filter(function (u, i, a) { return a.indexOf(u) === i; });
+    function doPreload() {
+        urls.forEach(function (url) {
+            var img = new Image();
+            img.src = url;
+        });
+    }
+    if (typeof requestIdleCallback !== 'undefined') {
+        requestIdleCallback(doPreload, { timeout: 3000 });
+    } else {
+        setTimeout(doPreload, 500);
+    }
+}
+
+/* 基准视口 1528×732，按实际视口等比缩放 */
+const INTRO_BASE_W = 1528;
+const INTRO_BASE_H = 732;
+
+window.updateIntroLayout = function() {
+    if (!document.body.classList.contains('page-intro')) return;
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const scale = Math.min(w / INTRO_BASE_W, h / INTRO_BASE_H);
+    const wrapper = document.querySelector('.intro-scale-wrapper');
+    if (wrapper) {
+        wrapper.style.transform = `scale(${scale})`;
+    }
+    /* 实时显示视口尺寸（调试用） */
+    const debugEl = document.getElementById('intro-viewport-size');
+    if (debugEl) {
+        debugEl.textContent = `${w}×${h} (scale: ${scale.toFixed(3)})`;
+    }
+};
+
+let _introViewportRaf = null;
+function scheduleIntroViewportRefresh() {
+    if (_introViewportRaf) return;
+    _introViewportRaf = requestAnimationFrame(() => {
+        _introViewportRaf = null;
+        window.updateIntroLayout();
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    preloadMemberAvatars();
+    window.addEventListener('resize', scheduleIntroViewportRefresh);
+    document.addEventListener('fullscreenchange', scheduleIntroViewportRefresh);
+    document.addEventListener('webkitfullscreenchange', scheduleIntroViewportRefresh);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', scheduleIntroViewportRefresh);
+        window.visualViewport.addEventListener('scroll', scheduleIntroViewportRefresh);
+    }
+    /* ResizeObserver：监听实际尺寸变化，F11 等场景比 resize 更可靠 */
+    const app = document.getElementById('app-container');
+    if (app && typeof ResizeObserver !== 'undefined') {
+        new ResizeObserver(scheduleIntroViewportRefresh).observe(app);
+    }
+    /* 兜底：F11 有时不触发任何事件，轮询检测视口变化 */
+    let _lastW = 0, _lastH = 0;
+    setInterval(() => {
+        if (!document.body.classList.contains('page-intro')) return;
+        const w = window.innerWidth, h = window.innerHeight;
+        if (w !== _lastW || h !== _lastH) {
+            _lastW = w; _lastH = h;
+            scheduleIntroViewportRefresh();
+        }
+    }, 300);
 });
 
 // 更新时间

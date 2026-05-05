@@ -1,30 +1,54 @@
-/* 介绍文字 */
+/* Intro：基准 1528×732，按视口等比缩放 */
+
+#section-introduction {
+    overflow: hidden;
+}
+
+/* 视口尺寸调试：已隐藏 */
+.viewport-size-debug {
+    display: none;
+}
+
+/* 缩放容器：1528×732 基准 */
+.intro-scale-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1528px;
+    height: 732px;
+    margin-left: -764px;
+    margin-top: -366px;
+    transform-origin: center center;
+    z-index: 1;
+}
+
+/* 介绍文字：基于 1528×732 的 px */
 .intro-text {
     position: absolute;
-    top: 152px; /* 位于 ui-status (top:100px) 下方，留出足够间距 */
-    left: 620px; /* 粒子效果约占 200-650px，留出 50px 间距 */
-    width: 860px; /* 限制宽度 */
-    font-family: var(--font-mono); /* 使用 Cascadia Mono */
+    top: 141px;
+    left: 619px;
+    width: 856px;
+    max-width: 920px;
+    font-family: var(--font-mono);
     font-size: 14px;
     line-height: 1.6;
     color: var(--text-primary);
     z-index: 200;
-    pointer-events: auto; /* 允许选中文本 */
+    pointer-events: auto;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
-    /* background: rgba(0, 0, 0, 0.3); */
     padding: 20px;
     border-left: 2px solid var(--text-dim);
 }
 
 .intro-text p {
-    margin-bottom: 0; /* 取消段落间空行 */
-    text-indent: 2em; /* 首行缩进 */
-    text-align: justify; /* 两端对齐 */
+    margin-bottom: 0;
+    text-indent: 2em;
+    text-align: justify;
 }
 
 .intro-text h4 {
-    margin-top: 10px; /* 减小标题上方间距 */
-    margin-bottom: 0; /* 取消标题下方间距 */
+    margin-top: 10px;
+    margin-bottom: 0;
     font-size: 14px;
     font-weight: bold;
     color: var(--accent-blue-bright);
@@ -39,9 +63,9 @@
 /* 终端命令提示符 */
 .terminal-prompt {
     position: absolute;
-    top: 120px;
-    left: 65px;
-    font-family: var(--font-mono); /* 使用 Cascadia Mono */
+    top: 111px;
+    left: 64px;
+    font-family: var(--font-mono);
     font-size: 14px;
     z-index: 200;
     pointer-events: none;
@@ -50,73 +74,40 @@
     align-items: center;
 }
 
-/* 移除旧的 .prompt-user 样式 */
-/*.prompt-user {
-    color: #0f0; 
-    font-weight: bold;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
-}*/
+.prompt-root { color: #0f0; font-weight: bold; text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); }
+.prompt-at { color: #fff; font-weight: bold; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+.prompt-host { color: #0088ff; font-weight: bold; text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); }
+.prompt-bracket { color: #0088ff; font-weight: bold; text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); }
+.prompt-path { color: #ff3333; font-weight: bold; margin-left: 5px; text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); }
+.prompt-symbol { color: #fff; margin-left: 4px; margin-right: 8px; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+.prompt-cmd { color: var(--text-primary); }
+.cursor { color: var(--text-primary); animation: blink 1s step-end infinite; margin-left: 2px; }
 
-.prompt-root {
-    color: #0f0; /* 绿色 */
-    font-weight: bold;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5); /* 添加光晕 */
-}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-.prompt-at {
-    color: #FFFFFF; /* 白色 */
-    font-weight: bold;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* 添加光晕 */
-}
-
-.prompt-host {
-    color: #0088ff; /* 蓝色 */
-    font-weight: bold;
-    text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); /* 添加光晕 */
-}
-
-.prompt-bracket {
-    color: #0088ff; /* 蓝色 */
-    font-weight: bold;
-    text-shadow: 0 0 5px rgba(0, 136, 255, 0.5); /* 添加光晕 */
-}
-
-.prompt-path {
-    color: #ff3333; /* 与 #0088ff 视觉亮度相当的红色 */
-    font-weight: bold;
-    margin-left: 5px;
-    text-shadow: 0 0 5px rgba(255, 51, 51, 0.5); /* 恢复光晕 */
-}
-
-.prompt-symbol {
-    color: #FFFFFF; /* #: 亮白色 */
-    margin-left: 4px;
-    margin-right: 8px;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* 恢复光晕 */
-}
-
-.prompt-cmd {
-    color: var(--text-primary); /* 255,255,255 */
-}
-
-.cursor {
-    color: var(--text-primary);
-    animation: blink 1s step-end infinite;
-    margin-left: 2px;
-}
-
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
-}
-
-/* 粒子画布 */
 #COba1tCanvas {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
     width: 100%;
     height: 100%;
-    z-index: 15; /* 位于代码层之上，UI层之下 */
-    pointer-events: auto; /* 允许交互 */
+    z-index: 5;
+    pointer-events: auto;
+}
+
+/* UI 框与状态栏：1528×732 px */
+#section-introduction .intro-scale-wrapper .ui-frame.top-left {
+    top: 89px;
+    left: 38px;
+    width: 214px;
+    height: 88px;
+}
+#section-introduction .intro-scale-wrapper .ui-frame.bottom-right {
+    bottom: 18px;
+    right: 39px;
+    width: 306px;
+    height: 73px;
+}
+#section-introduction .intro-scale-wrapper .ui-status {
+    top: 88px;
+    right: 38px;
 }

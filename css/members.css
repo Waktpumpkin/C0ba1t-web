@@ -217,13 +217,10 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    pointer-events: none; /* Changed from none to auto to allow clicks pass through only if needed, but here overlay is visual */
-    /* pointer-events: none is correct for the visual overlay text, 
-       but the card itself needs to be clickable. 
-       The issue might be the z-index stacking. */
+    pointer-events: none; /* visual overlay only */
     transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
     transform-origin: center top;
-    z-index: 3; /* Ensure it is above avatar but below interaction layers if any */
+    z-index: 3;
 }
 .card-overlay::before {
     content: '';
@@ -241,6 +238,7 @@
     background-color: #23ade5;
     background-color: var(--accent-blue-bright, #23ade5);
     color: #fff;
+    font-family: 'Oswald', sans-serif;
     font-size: 10px;
     font-weight: 700;
     padding: 2px 6px;
@@ -302,7 +300,7 @@
 
 .member-desc { font-family: 'Oswald', sans-serif; font-size: 10px; color: #888; text-transform: none; font-style: italic; font-weight: 700; line-height: 1.1; width: 100%; margin-right: 0; margin-top: 3px; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-all; }
 
-.member-name { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 2px; line-height: 1; }
+.member-name { font-family: 'Oswald', sans-serif; font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 2px; line-height: 1; }
 
 .role-icon-placeholder[data-role="PWN"] { color: #e03131; }
 .role-icon-placeholder[data-role="CRYPTO"] { color: #6741d9; }

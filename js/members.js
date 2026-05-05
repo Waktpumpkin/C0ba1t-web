@@ -45,6 +45,7 @@
         refs.gridScrollArea = document.querySelector('.grid-scroll-area');
         refs.mainTitle = document.querySelector('.right-main-title');
         refs.grid = document.querySelector('.grid');
+        refs.membersContainer = document.querySelector('.members-container');
     }
 
     function initData() {
@@ -154,7 +155,15 @@
         
         try {
             const selectedGrade = grades[currentGradeIndex];
-            const { currentGradeEl, bgYearEl, gridScrollArea, mainTitle, grid } = refs;
+            const { currentGradeEl, bgYearEl, gridScrollArea, mainTitle, grid, membersContainer } = refs;
+            const applyGradeLayout = function (grade) {
+                if (grid) {
+                    grid.classList.toggle('grade-layout-2022', grade === '2022');
+                }
+                if (membersContainer) {
+                    membersContainer.classList.toggle('grade-layout-2022-view', grade === '2022');
+                }
+            };
 
             // 1. Scroll Handling
             if (gridScrollArea) {
@@ -332,6 +341,7 @@
         });
     } else {
         // Simple hide for initial load
+        applyGradeLayout(selectedGrade);
         cards.forEach(card => {
             const cardGrade = String(card.dataset.grade);
             const currentSelectedGrade = String(selectedGrade);
@@ -344,6 +354,7 @@
     }
 
     // B. Enter Phase
+    applyGradeLayout(selectedGrade);
     document.querySelectorAll('.flex-break-line').forEach(el => el.remove());
     let visibleCount = 0;
     let enterStartVal = (direction === 'next') ? '-50px' : '50px';
@@ -371,9 +382,9 @@
             if (currentSelectedGrade === '0000') {
                 if (visibleCount < 2) card.style.marginTop = '-32px'; 
                 else card.style.marginTop = '3px';
-                
+
                 card.classList.remove('card-centered-top');
-                
+
                 // Insert break line for layout
                 if (visibleCount === 1) {
                     const breakLine = document.createElement('div');
@@ -384,8 +395,13 @@
                 }
             } else {
                 card.style.marginTop = '';
-                if (visibleCount < 4) card.classList.add('card-centered-top'); 
-                else card.classList.remove('card-centered-top');
+                if (currentSelectedGrade === '2022') {
+                    card.classList.remove('card-centered-top');
+                } else if (visibleCount < 4) {
+                    card.classList.add('card-centered-top');
+                } else {
+                    card.classList.remove('card-centered-top');
+                }
             }
 
             void card.offsetWidth;
@@ -412,6 +428,7 @@
             // Grid Gap Adjustment
             if (grid) {
                 if (selectedGrade === '0000') grid.style.gap = '15px 65px';
+                else if (selectedGrade === '2022') grid.style.gap = '33px 65px';
                 else if (visibleCount < 4) grid.style.gap = '50px';
                 else grid.style.gap = '15px';
             }

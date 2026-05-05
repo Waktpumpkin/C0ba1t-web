@@ -44,6 +44,17 @@
     background-color: transparent;
 }
 
+@media (min-width: 769px) {
+    .members-container.grade-layout-2022-view .grid-scroll-area {
+        align-items: flex-start;
+    }
+
+    .members-container.grade-layout-2022-view .grid {
+        width: 100%;
+        margin: -12px auto 0 auto;
+    }
+}
+
 .grid-scroll-area {
     flex: 1;
     overflow-y: auto;
@@ -74,6 +85,44 @@
 }
 
 .card.card-centered-top { margin-top: 15vh !important; }
+
+@media (min-width: 769px) {
+    .grid.grade-layout-2022 {
+        --grade-2022-card-width: calc((100% - 45px) / 4);
+        display: grid;
+        grid-template-columns: repeat(3, minmax(180px, var(--grade-2022-card-width)));
+        justify-content: center;
+        align-items: start;
+        gap: 33px 65px;
+    }
+
+    .grid.grade-layout-2022 .card[data-grade="2022"] {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        justify-self: center;
+    }
+
+    .grid.grade-layout-2022 .card.grade-2022-top {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    .grid.grade-layout-2022 .card.grade-2022-col-1 {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .grid.grade-layout-2022 .card.grade-2022-col-2 {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .grid.grade-layout-2022 .card.grade-2022-col-3 {
+        grid-column: 3;
+        grid-row: 2;
+    }
+}
 
 /* 右侧外层透明，内层黑底遮住网格；切出时内层滑走后露出 main 的网格 */
 .members-right-panel {

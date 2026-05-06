@@ -322,10 +322,6 @@ document.addEventListener('DOMContentLoaded', () => {
         function runCleanupOnce() {
             if (cleanupDone) return;
             cleanupDone = true;
-            var switchMs = Math.round(performance.now() - switchStartTime);
-            if (typeof console !== 'undefined' && console.log) {
-                console.log('[切页] ' + currentId + ' → ' + nextId + ' 耗时 ' + switchMs + ' ms');
-            }
             document.body.classList.remove('honor-exit-nav-ruler');
             if (currentSection) {
                 currentSection.removeEventListener('transitionend', onTransitionEnd);

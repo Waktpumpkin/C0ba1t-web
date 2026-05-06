@@ -172,7 +172,6 @@
     // --- Main Init/Cleanup ---
 
     window.initHonor = function() {
-        console.log('Initializing Honor Page...');
         const section = document.getElementById('section-honor');
         const timeline = document.querySelector('.timeline');
         if (!timeline) {

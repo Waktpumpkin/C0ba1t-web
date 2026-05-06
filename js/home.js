@@ -1,82 +1,155 @@
 (function() {
-    const HOME_TEXT = 'This page is under construction';
-    const TYPEWRITER_MS = 65;
-    const EXIT_CHAR_MS = 22;
+    const STATE = {
+        IDLE: 'idle',
+        REVEALING: 'revealing',
+        PLAYING: 'playing',
+        IMPACT: 'impact',
+        SETTLING: 'settling',
+        STEADY: 'steady',
+        EXITING: 'exiting'
+    };
 
-    let typewriterTimerId = null;
+    const TIMINGS = {
+        reveal: 220,
+        preImpact: 900,
+        impact: 220,
+        settling: 1400,
+        replayDelay: 180,
+        exit: 320
+    };
 
-    function getInner() {
-        return document.querySelector('#section-home .home-placeholder-inner');
+    let scene = null;
+    let timers = [];
+    let hasPlayedOnce = false;
+    let initialized = false;
+
+    function clearHomeTimers() {
+        timers.forEach((id) => clearTimeout(id));
+        timers = [];
     }
 
-    /**
-     * 切入 home 页时：打字输入效果
-     */
-    window.initHomePlaceholder = function() {
-        const inner = getInner();
-        if (!inner) return;
-        var cursor = document.querySelector('#section-home .home-placeholder-cursor');
-        if (cursor) {
-            cursor.style.opacity = '';
-            cursor.style.animation = '';
+    function getScene() {
+        if (!scene) scene = document.getElementById('home-scene');
+        return scene;
+    }
+
+    function setState(nextState) {
+        const el = getScene();
+        if (!el) return;
+        el.setAttribute('data-home-state', nextState);
+    }
+
+    function schedule(fn, delay) {
+        const id = setTimeout(fn, delay);
+        timers.push(id);
+        return id;
+    }
+
+    function prefersReducedMotion() {
+        return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    function resetHomeScene(mode) {
+        const el = getScene();
+        if (!el) return;
+
+        clearHomeTimers();
+
+        if (window.stopHomeFx) {
+            window.stopHomeFx();
         }
-        inner.textContent = '';
-        inner.innerHTML = '';
-        if (typewriterTimerId) clearInterval(typewriterTimerId);
-        let i = 0;
-        typewriterTimerId = setInterval(function() {
-            if (i >= HOME_TEXT.length) {
-                clearInterval(typewriterTimerId);
-                typewriterTimerId = null;
-                return;
+        if (window.resizeHomeFx) {
+            window.resizeHomeFx();
+        }
+
+        if (mode === 'steady' || prefersReducedMotion()) {
+            setState(STATE.STEADY);
+            if (window.startHomeSteadyFx) {
+                window.startHomeSteadyFx();
             }
-            inner.textContent += HOME_TEXT[i];
-            i++;
-        }, TYPEWRITER_MS);
+            return;
+        }
+
+        setState(STATE.IDLE);
+    }
+
+    function playScene(fromReplay) {
+        const el = getScene();
+        if (!el) return;
+
+        resetHomeScene();
+        if (window.createHomeFx) {
+            window.createHomeFx();
+        }
+
+        setState(STATE.REVEALING);
+
+        schedule(function() {
+            setState(STATE.PLAYING);
+        }, fromReplay ? TIMINGS.replayDelay : TIMINGS.reveal);
+
+        schedule(function() {
+            setState(STATE.IMPACT);
+            if (window.playHomeImpactFx) {
+                window.playHomeImpactFx();
+            }
+        }, (fromReplay ? TIMINGS.replayDelay : TIMINGS.reveal) + TIMINGS.preImpact);
+
+        schedule(function() {
+            setState(STATE.SETTLING);
+        }, (fromReplay ? TIMINGS.replayDelay : TIMINGS.reveal) + TIMINGS.preImpact + TIMINGS.impact);
+
+        schedule(function() {
+            setState(STATE.STEADY);
+            if (window.startHomeSteadyFx) {
+                window.startHomeSteadyFx();
+            }
+            hasPlayedOnce = true;
+        }, (fromReplay ? TIMINGS.replayDelay : TIMINGS.reveal) + TIMINGS.preImpact + TIMINGS.impact + TIMINGS.settling);
+    }
+
+    function ensureInitialized() {
+        const el = getScene();
+        if (!el || initialized) return;
+        initialized = true;
+        if (window.createHomeFx) {
+            window.createHomeFx();
+        }
+        window.addEventListener('resize', function() {
+            if (window.resizeHomeFx) {
+                window.resizeHomeFx();
+            }
+        });
+    }
+
+    window.initHomePlaceholder = function() {
+        ensureInitialized();
+        if (prefersReducedMotion()) {
+            resetHomeScene('steady');
+            hasPlayedOnce = true;
+            return;
+        }
+        playScene(hasPlayedOnce);
     };
 
-    /**
-     * 切出 home 页时：逐字退出，动画结束后调用 done
-     */
     window.prepareHomeExit = function(done) {
-        const inner = getInner();
-        if (!inner) {
+        const el = getScene();
+        clearHomeTimers();
+
+        if (!el) {
             if (done) done();
             return;
         }
-        const text = inner.textContent || '';
-        if (!text) {
-            if (done) done();
-            return;
-        }
-        if (typewriterTimerId) {
-            clearInterval(typewriterTimerId);
-            typewriterTimerId = null;
-        }
-        var cursor = document.querySelector('#section-home .home-placeholder-cursor');
-        if (cursor) {
-            cursor.style.opacity = '0';
-            cursor.style.animation = 'none';
-        }
-        inner.textContent = '';
-        var chars = text.split('');
-        chars.forEach(function(c) {
-            var span = document.createElement('span');
-            span.textContent = c;
-            span.className = 'home-placeholder-char';
-            inner.appendChild(span);
-        });
-        var spans = inner.querySelectorAll('.home-placeholder-char');
-        var idx = spans.length - 1;
-        function hideNext() {
-            if (idx < 0) {
-                if (done) done();
-                return;
+
+        setState(STATE.EXITING);
+
+        schedule(function() {
+            if (window.stopHomeFx) {
+                window.stopHomeFx();
             }
-            spans[idx].classList.add('home-placeholder-char-exit');
-            idx--;
-            setTimeout(hideNext, EXIT_CHAR_MS);
-        }
-        setTimeout(hideNext, EXIT_CHAR_MS);
+            if (done) done();
+        }, TIMINGS.exit);
     };
+
+    window.resetHomeScene = resetHomeScene;
 })();

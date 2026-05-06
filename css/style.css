@@ -65,36 +65,3 @@ body.page-intro #section-introduction .ui-frame {
 .vertical-ruler {
     z-index: 100 !important; /* 确保标尺在 Members/Honor 的背景之上 */
 }
-
-/* Home 页：统一字体 + 占位文案与打字光标 */
-#section-home {
-    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
-}
-#section-home .home-placeholder {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin: 0;
-    font-size: 1rem;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    pointer-events: none;
-    z-index: 5;
-    font-family: 'Oswald', 'Noto Sans SC', sans-serif;
-}
-#section-home .home-placeholder-inner {
-    display: inline;
-    font-family: inherit;
-}
-#section-home .home-placeholder-cursor {
-    opacity: 1;
-    animation: home-cursor-blink 0.8s step-end infinite;
-}
-#section-home .home-placeholder-char-exit {
-    opacity: 0;
-    transition: opacity 0.06s ease-out;
-}
-@keyframes home-cursor-blink {
-    50% { opacity: 0; }
-}

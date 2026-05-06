@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="css/ui.css">
     <link rel="stylesheet" href="css/members.css">
     <link rel="stylesheet" href="css/honor.css">
+    <link rel="stylesheet" href="css/home.css">
     <link rel="stylesheet" href="css/responsive.css">
     <style>    /* SPA Section Styles */
         .spa-section {
@@ -115,9 +116,82 @@
         <main id="app-container">
             <!-- HOME SECTION -->
             <section id="section-home" class="spa-section active">
-                <div class="layer layer-ui">
+                <div id="home-scene" class="home-scene" data-home-state="idle">
+                    <div class="home-ambient-glow" aria-hidden="true"></div>
+
+                    <div class="home-bg" aria-hidden="true">
+                        <div class="home-bg-grid"></div>
+                        <div class="home-bg-editor">
+                            <div class="home-editor-shell">
+                                <div class="home-editor-toolbar">
+                                    <div class="home-editor-dots">
+                                        <span class="home-editor-dot"></span>
+                                        <span class="home-editor-dot"></span>
+                                        <span class="home-editor-dot"></span>
+                                    </div>
+                                    <div class="home-editor-tabs">
+                                        <span class="home-editor-tab is-active">home.tsx</span>
+                                        <span class="home-editor-tab">impact.fx</span>
+                                    </div>
+                                </div>
+
+                                <div class="home-editor-layout">
+                                    <div class="home-editor-sidebar">
+                                        <span class="home-sidebar-node is-active"></span>
+                                        <span class="home-sidebar-node"></span>
+                                        <span class="home-sidebar-node"></span>
+                                        <span class="home-sidebar-node"></span>
+                                        <span class="home-sidebar-node"></span>
+                                    </div>
+
+                                    <div class="home-editor-content">
+                                        <span class="home-code-line w-96"></span>
+                                        <span class="home-code-line w-72"></span>
+                                        <span class="home-code-line w-84"></span>
+                                        <span class="home-code-line w-58"></span>
+                                        <span class="home-code-line w-92"></span>
+                                        <span class="home-code-line w-66"></span>
+                                        <span class="home-code-line w-78"></span>
+                                        <span class="home-code-line w-48"></span>
+                                        <span class="home-code-line w-88"></span>
+                                        <span class="home-code-line w-62"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="home-bg-shards"></div>
+                    </div>
+
+                    <div class="home-impact-zone" aria-hidden="true">
+                        <div class="home-crater-shadow"></div>
+                        <div class="home-crater-rim"></div>
+                        <div class="home-crater-inner"></div>
+                        <div class="home-cracks">
+                            <span class="home-crack" style="--crack-x: 51%; --crack-y: 44%; --crack-r: -10deg; --crack-w: 20%; --crack-d: 0ms;"></span>
+                            <span class="home-crack" style="--crack-x: 45%; --crack-y: 52%; --crack-r: -36deg; --crack-w: 28%; --crack-d: 70ms;"></span>
+                            <span class="home-crack" style="--crack-x: 55%; --crack-y: 48%; --crack-r: 18deg; --crack-w: 30%; --crack-d: 120ms;"></span>
+                            <span class="home-crack" style="--crack-x: 58%; --crack-y: 54%; --crack-r: 42deg; --crack-w: 24%; --crack-d: 160ms;"></span>
+                            <span class="home-crack" style="--crack-x: 46%; --crack-y: 61%; --crack-r: -74deg; --crack-w: 19%; --crack-d: 210ms;"></span>
+                            <span class="home-crack" style="--crack-x: 61%; --crack-y: 59%; --crack-r: 78deg; --crack-w: 20%; --crack-d: 240ms;"></span>
+                            <span class="home-crack" style="--crack-x: 40%; --crack-y: 50%; --crack-r: 152deg; --crack-w: 16%; --crack-d: 280ms;"></span>
+                        </div>
+                        <div class="home-impact-glow"></div>
+                    </div>
+
+                    <div class="home-logo-meteor" aria-hidden="true">
+                        <span class="home-logo-core"></span>
+                        <img src="assets/C0ba1t-logo.png" alt="C0ba1t logo meteor">
+                    </div>
+
+                    <canvas id="home-fx-canvas" aria-hidden="true"></canvas>
+
+                    <div class="home-copy">
+                        <span class="home-kicker">C0BA1T // HOME</span>
+                        <img src="assets/C0ba1t-txt.png" alt="C0ba1t" class="home-brand-text">
+                        <p class="home-tagline">Break the code surface.</p>
+                        <p class="home-caption">The first-pass home scene keeps the virtual editor surface intact until the logo strikes and exposes a darker rock layer below.</p>
+                    </div>
                 </div>
-                <p class="home-placeholder"><span class="home-placeholder-inner"></span><span class="home-placeholder-cursor">|</span></p>
             </section>
 
             <!-- INTRODUCTION SECTION -->
@@ -665,6 +739,7 @@
     <script src="js/main.js"></script>
     <script src="js/members.js"></script>
     <script src="js/honor.js"></script>
+    <script src="js/homeFx.js"></script>
     <script src="js/home.js"></script>
     <script src="js/navigation.js"></script>
 </body>

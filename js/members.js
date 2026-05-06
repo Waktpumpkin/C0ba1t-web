@@ -268,11 +268,10 @@
             
             if (!isSelected && isVisibleInFlow) {
                 const rect = card.getBoundingClientRect();
-                const gridRect = grid ? grid.getBoundingClientRect() : {left:0, top:0};
                 exits.push({ 
                     el: card, 
-                    left: rect.left - gridRect.left, 
-                    top: rect.top - gridRect.top, 
+                    left: rect.left, 
+                    top: rect.top, 
                     width: rect.width, 
                     height: rect.height 
                 });
@@ -291,22 +290,13 @@
 
         exits.forEach(item => {
             const card = item.el;
-            card.style.position = 'absolute';
+            card.style.position = 'fixed';
             card.style.transition = 'none';
             card.style.marginTop = '0'; // 避免 Admin 卡 -32px/3px 的 margin 导致 absolute 后“上外边距”与边框盒错位而上移
             card.style.marginBottom = '0';
-            
-            // Adjust for border if needed
-            let borderTop = 0;
-            let borderLeft = 0;
-            if (grid) {
-                const gridComputed = window.getComputedStyle(grid);
-                borderTop = parseFloat(gridComputed.borderTopWidth) || 0;
-                borderLeft = parseFloat(gridComputed.borderLeftWidth) || 0;
-            }
 
-            card.style.top = (item.top - borderTop) + 'px';
-            card.style.left = (item.left - borderLeft) + 'px';
+            card.style.top = item.top + 'px';
+            card.style.left = item.left + 'px';
             card.style.width = item.width + 'px';
             card.style.height = item.height + 'px';
             card.style.zIndex = '0';
@@ -419,7 +409,7 @@
             }, baseDelay + (visibleCount * 100));
             
             visibleCount++;
-        } else if (card.style.position !== 'absolute') {
+        } else if (card.style.position !== 'absolute' && card.style.position !== 'fixed') {
             // Double check to hide others not animating out
             card.style.display = 'none';
         }
